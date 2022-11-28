@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -37,8 +35,10 @@ private:
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float MoveSpeed;
+	float MoveSpeed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		float MinTimeBetweenJump;
+	float MinTimeBetweenJump;
+
+	//void 
 };

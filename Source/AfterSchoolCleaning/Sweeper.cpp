@@ -5,7 +5,6 @@
 ASweeper::ASweeper()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 void ASweeper::BeginPlay()
