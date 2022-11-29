@@ -14,10 +14,18 @@ void ASweeper::BeginPlay()
 	if (MoveSpeed <= 0)
 		MoveSpeed = 1;
 
-	if (MinTimeBetweenJump <= 0.0f)
-		MinTimeBetweenJump = 1.0f;
+	if (JumpDelay <= 0.0f)
+		JumpDelay = 1.0f;
+
+	if(UseToolDelay <= 0.0f)
+		UseToolDelay = 1.0f;
+
+	CurrentUseToolCounts.Empty();
+	for(int i = 0; i < ToolStats.Num(); i++)
+		CurrentUseToolCounts.Add(ToolStats[i].MaxUseToolCount);
 
 	CanJump = true;
+	CanUseTool = true;
 }
 
 void ASweeper::Tick(float DeltaTime)
@@ -41,6 +49,10 @@ void ASweeper::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis(TEXT("LookRight"), this, &APawn::AddControllerYawInput);
 
 	PlayerInputComponent->BindAction(TEXT("Jump"), EInputEvent::IE_Pressed, this, &ASweeper::Jump);
+	PlayerInputComponent->BindAction(TEXT("Use"), EInputEvent::IE_Pressed, this, &ASweeper::UseTool);
+	PlayerInputComponent->BindAction<TDelegate<void(ETool)>>(TEXT("Hand"), EInputEvent::IE_Pressed, this, &ASweeper::ChangeTool, ETool::Hand);
+	PlayerInputComponent->BindAction<TDelegate<void(ETool)>>(TEXT("Wall"), EInputEvent::IE_Pressed, this, &ASweeper::ChangeTool, ETool::Wall);
+	PlayerInputComponent->BindAction<TDelegate<void(ETool)>>(TEXT("Floor"), EInputEvent::IE_Pressed, this, &ASweeper::ChangeTool, ETool::Floor);
 }
 
 void ASweeper::MoveForward(float AxisValue)
@@ -63,7 +75,7 @@ void ASweeper::Jump()
 	ACharacter::Jump();
 
 	CanJump = false;
-	GetWorldTimerManager().SetTimer(JumpTimer, this, &ASweeper::CheckJumpState, MinTimeBetweenJump, false);
+	GetWorldTimerManager().SetTimer(JumpTimer, this, &ASweeper::CheckJumpState, JumpDelay, false);
 }
 
 void ASweeper::CheckJumpState()
@@ -74,7 +86,7 @@ void ASweeper::CheckJumpState()
 	}
 	else
 	{
-		GetWorldTimerManager().SetTimer(JumpTimer, this, &ASweeper::SetEnabledJump, MinTimeBetweenJump, false);
+		GetWorldTimerManager().SetTimer(JumpTimer, this, &ASweeper::SetEnabledJump, JumpDelay, false);
 	}
 }
 
@@ -83,5 +95,29 @@ void ASweeper::SetEnabledJump()
 	CanJump = true;
 	GetWorldTimerManager().ClearTimer(JumpTimer);
 
-	GEngine->AddOnScreenDebugMessage(0, 2.0f, FColor::Cyan, TEXT("NOW, CAN JUMP!"));
+	GEngine->AddOnScreenDebugMessage(0, 2.0f, FColor::Cyan, TEXT("Now, can jump!"));
+}
+
+void ASweeper::SetEnabledUseTool()
+{
+	CanUseTool = true;
+	GetWorldTimerManager().ClearTimer(UseToolTimer);
+}
+
+void ASweeper::ChangeTool(ETool Tool)
+{
+	CurrentTool = Tool;
+	GEngine->AddOnScreenDebugMessage(1, 2.0f, FColor::Green, FString::Printf(TEXT("%d"), (int)Tool));
+}
+
+void ASweeper::UseTool()
+{
+	if(!CanUseTool || CurrentUseToolCounts[static_cast<int>(CurrentTool)] <= 0)
+		return;
+	
+	CanUseTool = false;
+	--CurrentUseToolCounts[static_cast<int>(CurrentTool)];
+	GEngine->AddOnScreenDebugMessage(2, 2.0f, FColor::Yellow, TEXT("Use Tool"));
+
+	GetWorldTimerManager().SetTimer(UseToolTimer, this, &ASweeper::SetEnabledUseTool, UseToolDelay, false);
 }
