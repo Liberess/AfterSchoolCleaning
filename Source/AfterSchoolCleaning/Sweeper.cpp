@@ -110,11 +110,12 @@ void ASweeper::ChangeTool(ETool Tool)
 	GEngine->AddOnScreenDebugMessage(1, 2.0f, FColor::Green, FString::Printf(TEXT("%d"), (int)Tool));
 }
 
-void ASweeper::UseTool()
+void ASweeper::UseTool_Implementation()
 {
 	if(!CanUseTool || CurrentUseToolCounts[static_cast<int>(CurrentTool)] <= 0)
 		return;
-	
+
+	//CanJump
 	CanUseTool = false;
 	--CurrentUseToolCounts[static_cast<int>(CurrentTool)];
 	GEngine->AddOnScreenDebugMessage(2, 2.0f, FColor::Yellow, TEXT("Use Tool"));

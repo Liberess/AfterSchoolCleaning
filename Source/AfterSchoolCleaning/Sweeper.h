@@ -48,11 +48,9 @@ private:
 	
 	void SetEnabledUseTool();
 
+	bool CanJump;
 	float LastJumpTime;
 	float LastUseToolTime;
-
-	bool CanJump;
-	bool CanUseTool;
 
 	FVector MoveDirection;
 
@@ -68,6 +66,27 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float UseToolDelay;
+	
+	UPROPERTY(BlueprintReadWrite)
+	bool CanUseTool;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool IsInspecting;
+
+	UPROPERTY(BlueprintReadWrite)
+	FVector StartLocation;
+
+	UPROPERTY(BlueprintReadWrite)
+	FVector NewStartLocation;
+	
+	UPROPERTY(BlueprintReadWrite)
+	FVector EndLocation;
+
+	UPROPERTY(BlueprintReadWrite)
+	FVector NewEndLocation;
+
+	UPROPERTY(BlueprintReadWrite)
+	AActor* PlacedActor;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	ETool CurrentTool;
@@ -81,6 +100,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ChangeTool(ETool Tool);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void UseTool();
 };
