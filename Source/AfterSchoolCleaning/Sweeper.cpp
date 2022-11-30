@@ -5,6 +5,9 @@
 ASweeper::ASweeper()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	BaseTurnRate = 45.f;
+	BaseLookUpRate = 45.f;
 }
 
 void ASweeper::BeginPlay()
@@ -43,6 +46,8 @@ void ASweeper::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	check(PlayerInputComponent);
+
 	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &ASweeper::MoveForward);
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &ASweeper::MoveRight);
 	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &APawn::AddControllerPitchInput);
@@ -57,14 +62,14 @@ void ASweeper::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ASweeper::MoveForward(float AxisValue)
 {
-	AddMovementInput(GetActorForwardVector() * AxisValue * MoveSpeed);
-	//MoveDirection.X = FMath::Clamp(AxisValue, -1.0f, 1.0f);
+	if(AxisValue != 0.0f)
+		AddMovementInput(GetActorForwardVector(), AxisValue * MoveSpeed);
 }
 
 void ASweeper::MoveRight(float AxisValue)
 {
-	AddMovementInput(GetActorRightVector() * AxisValue * MoveSpeed);
-	//MoveDirection.Y = FMath::Clamp(AxisValue, -1.0f, 1.0f);
+	if(AxisValue != 0.0f)
+		AddMovementInput(GetActorRightVector(), AxisValue * MoveSpeed);
 }
 
 void ASweeper::Jump()

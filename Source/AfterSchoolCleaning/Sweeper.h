@@ -58,13 +58,19 @@ private:
 	FTimerHandle UseToolTimer;
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+	float BaseTurnRate;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
+	float BaseLookUpRate;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
 	float MoveSpeed;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
 	float JumpDelay;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Tool)
 	float UseToolDelay;
 	
 	UPROPERTY(BlueprintReadWrite)
@@ -88,13 +94,13 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	AActor* PlacedActor;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Tool)
 	ETool CurrentTool;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Tool)
 	TArray<FToolStat> ToolStats;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Tool)
 	TArray<int> CurrentUseToolCounts;
 
 	UFUNCTION(BlueprintCallable)
