@@ -3,15 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ObstacleAIControllerBase.h"
+#include "AIController.h"
 #include "SplinePath.h"
+#include "Components/TimelineComponent.h"
 #include "AI1Controller.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class AFTERSCHOOLCLEANING_API AAI1Controller : public AObstacleAIControllerBase
+class AFTERSCHOOLCLEANING_API AAI1Controller : public AAIController
 {
 	GENERATED_BODY()
 
@@ -19,9 +20,10 @@ public:
 	AAI1Controller();
 
 protected:
+	virtual void BeginPlay() override;
 	virtual void OnPossess(APawn* InPawn) override;
 
-private:
+protected:
 	UPROPERTY()
 	TArray<ASplinePath*> SplinePaths;
 
@@ -31,13 +33,28 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "FollowSpline", meta = (AllowPrivateAccess = "true"))
 	float Duration;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "FollowSpline", meta = (AllowPrivateAccess = "true"))
+	UCurveFloat* MovementCurve;
+
+	UPROPERTY()
+	FTimeline MovementTimeline;
+
 public:
+	virtual void Tick(float DeltaTime) override;
+
 	UFUNCTION(BlueprintCallable, Category = "FollowSpline")
 	void FindSplineActor();
 
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "FollowSpline")
 	void SetDuration();
 
-	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent, Category = "FollowSpline")
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "FollowSpline")
 	void MoveToSplinePath();
+
+	UFUNCTION()
+	void ProcessMovementTimeline(float value);
+
+	UFUNCTION()
+	void OnEndMovementTimeline();
+
 };

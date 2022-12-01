@@ -16,16 +16,6 @@ public:
 	// Sets default values for this pawn's properties
 	AAI1();
 
-private:
-	UPROPERTY()
-	TArray<ASplinePath*> SplinePaths;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "FollowSpline", meta = (AllowPrivateAccess = "true"))
-	ASplinePath* SplineReference;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "FollowSpline", meta = (AllowPrivateAccess = "true"))
-	float Duration;
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -36,7 +26,4 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	UFUNCTION(BlueprintCallable, Category = "FollowSpline")
-	void FindSplineActor();
 };

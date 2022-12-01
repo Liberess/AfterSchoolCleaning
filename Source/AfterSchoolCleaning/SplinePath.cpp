@@ -20,7 +20,7 @@ ASplinePath::ASplinePath()
 void ASplinePath::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 // Called every frame
@@ -29,4 +29,3 @@ void ASplinePath::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 }
-

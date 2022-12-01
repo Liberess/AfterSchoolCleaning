@@ -13,8 +13,8 @@ AAI1::AAI1()
 	PrimaryActorTick.bCanEverTick = true;
 
 	//AI Controller ¼³Á¤
-	//AIControllerClass = AAI1Controller::StaticClass();
-	//AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+	AIControllerClass = AAI1Controller::StaticClass();
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 }
 
 // Called when the game starts or when spawned
@@ -22,7 +22,6 @@ void AAI1::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FindSplineActor();
 }
 
 // Called every frame
@@ -30,22 +29,6 @@ void AAI1::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-}
-
-void AAI1::FindSplineActor()
-{
-	TArray<AActor*> actors;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASplinePath::StaticClass(), actors);
-
-	for (AActor* actor : actors)
-	{
-		ASplinePath* Spline = Cast<ASplinePath>(actor);
-
-		if (Spline != nullptr)
-			SplinePaths.Add(Spline);
-	}
-
-	SplineReference = SplinePaths[0];
 }
 
 // Called to bind functionality to input
