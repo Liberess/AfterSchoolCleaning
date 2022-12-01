@@ -19,9 +19,26 @@ AInteractableItemParent::AInteractableItemParent()
 void AInteractableItemParent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	OriginVector = GetActorLocation();
 }
 
 void AInteractableItemParent::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	CurrentDistance = FVector::Distance(OriginVector, GetActorLocation());
+	if(CurrentDistance >= MaxFarDistance)
+		ResetLocation();
+}
+
+void AInteractableItemParent::SaveLocation()
+{
+	OriginVector = GetActorLocation();
+}
+
+void AInteractableItemParent::ResetLocation_Implementation()
+{
+	//SetActorLocation(OriginVector);
+	//OriginVector = GetActorLocation();
 }

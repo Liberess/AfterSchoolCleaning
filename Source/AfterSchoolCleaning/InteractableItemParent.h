@@ -23,4 +23,24 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	bool IsRotate;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	FVector OriginVector;
+
+	UPROPERTY(VisibleAnywhere)
+	float CurrentDistance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float MaxFarDistance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float ResetTime;
+	
+	FTimerHandle ResetLocationTimer;
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void ResetLocation();
+
+	UFUNCTION(BlueprintCallable)
+	void SaveLocation();
 };
