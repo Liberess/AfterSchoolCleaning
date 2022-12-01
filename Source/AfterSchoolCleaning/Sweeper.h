@@ -77,9 +77,6 @@ public:
 	bool CanUseTool;
 
 	UPROPERTY(BlueprintReadWrite, Category = Interact)
-	bool IsInspecting;
-
-	UPROPERTY(BlueprintReadWrite, Category = Interact)
 	bool IsGrip;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Interact)
@@ -89,16 +86,7 @@ public:
 	FVector StartLocation;
 
 	UPROPERTY(BlueprintReadWrite)
-	FVector NewStartLocation;
-	
-	UPROPERTY(BlueprintReadWrite)
 	FVector EndLocation;
-
-	UPROPERTY(BlueprintReadWrite)
-	FVector NewEndLocation;
-
-	UPROPERTY(BlueprintReadWrite)
-	AActor* PlacedActor;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interact)
 	ETool CurrentTool;
