@@ -4,6 +4,8 @@ AInteractableItemParent::AInteractableItemParent()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
+	IsRotate = false;
+
 	ItemMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ItemMesh"));
 
 	ConstructorHelpers::FObjectFinder<UStaticMesh> _ItemMesh(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
