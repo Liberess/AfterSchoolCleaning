@@ -80,7 +80,7 @@ public:
 	bool IsGrip;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Interact)
-	AActor* InteractActor;
+	AActor* InteractObject;
 
 	UPROPERTY(BlueprintReadWrite)
 	FVector StartLocation;
@@ -102,4 +102,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void UseTool();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void PutObject();
 };
