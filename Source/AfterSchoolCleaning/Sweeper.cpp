@@ -111,8 +111,16 @@ void ASweeper::SetEnabledUseTool()
 
 void ASweeper::ChangeTool(ETool Tool)
 {
+	if(IsGrip)
+		return;
+	
 	CurrentTool = Tool;
 	GEngine->AddOnScreenDebugMessage(1, 2.0f, FColor::Green, FString::Printf(TEXT("%d"), (int)Tool));
+}
+
+void ASweeper::PutObject_Implementation()
+{
+	
 }
 
 void ASweeper::UseTool_Implementation()
