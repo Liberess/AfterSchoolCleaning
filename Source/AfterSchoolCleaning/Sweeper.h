@@ -70,37 +70,31 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
 	float JumpDelay;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Tool)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interact)
 	float UseToolDelay;
 	
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, Category = Interact)
 	bool CanUseTool;
 
-	UPROPERTY(BlueprintReadWrite)
-	bool IsInspecting;
+	UPROPERTY(BlueprintReadWrite, Category = Interact)
+	bool IsGrip;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Interact)
+	AActor* InteractObject;
 
 	UPROPERTY(BlueprintReadWrite)
 	FVector StartLocation;
 
 	UPROPERTY(BlueprintReadWrite)
-	FVector NewStartLocation;
-	
-	UPROPERTY(BlueprintReadWrite)
 	FVector EndLocation;
 
-	UPROPERTY(BlueprintReadWrite)
-	FVector NewEndLocation;
-
-	UPROPERTY(BlueprintReadWrite)
-	AActor* PlacedActor;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Tool)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interact)
 	ETool CurrentTool;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Tool)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interact)
 	TArray<FToolStat> ToolStats;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Tool)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interact)
 	TArray<int> CurrentUseToolCounts;
 
 	UFUNCTION(BlueprintCallable)
@@ -108,4 +102,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void UseTool();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void PutObject();
 };

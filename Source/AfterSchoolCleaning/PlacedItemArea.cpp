@@ -1,0 +1,53 @@
+#include "PlacedItemArea.h"
+#include "DrawDebugHelpers.h"
+#include "InteractableItemParent.h"
+
+#define print(duration, text) if(GEngine) GEngine->AddOnScreenDebugMessage(-1, duration, FColor::Yellow, text)
+#define printFString(duration, text, fstring) if(GEngine) GEngine->AddOnScreenDebugMessage(-1, duration, FColor::Yellow, FString::Printf(Text(text), fstring))
+
+APlacedItemArea::APlacedItemArea()
+{
+	OnActorBeginOverlap.AddDynamic(this, &APlacedItemArea::OnOverlapBegin);
+	OnActorEndOverlap.AddDynamic(this, &APlacedItemArea::OnOverlapEnd);
+}
+
+void APlacedItemArea::BeginPlay()
+{
+	Super::BeginPlay();
+	OnDrawDebugBox(FColor::Yellow);
+}
+
+void APlacedItemArea::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if (OtherActor && OtherActor != this)
+	{
+		AInteractableItemParent* Item = Cast<AInteractableItemParent>(OtherActor);
+		if (IsValid(Item))
+		{
+			Item->CurrentPlacedItemArea = this;
+
+			if (Item->PlacedAreaTag == this->PlacedAreaTag)
+				OnDrawDebugBox(FColor::Green);
+			else
+				OnDrawDebugBox(FColor::Red);
+		}
+	}
+}
+
+void APlacedItemArea::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
+{
+	if (OtherActor && OtherActor != this)
+	{
+		AInteractableItemParent* Item = Cast<AInteractableItemParent>(OtherActor);
+		if (IsValid(Item))
+		{
+			Item->CurrentPlacedItemArea = nullptr;
+			OnDrawDebugBox(FColor::Yellow);
+		}
+	}
+}
+
+void APlacedItemArea::OnDrawDebugBox(FColor DebugColor)
+{
+	DrawDebugBox(GetWorld(), GetActorLocation(), GetComponentsBoundingBox().GetExtent(), DebugColor, true, -1, 0, 1);
+}
