@@ -29,21 +29,21 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EPlacedAreaTag PlacedAreaTag;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite)
 	bool IsRotate;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite)
 	bool IsInteractable;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite)
 	FVector OriginVector;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(ClampMin = 0, ClampMax = 100))
 	float ResetTime;
 	
 	FTimerHandle ResetLocationTimer;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite)
 	bool IsGrounded;
 
 	APlacedItemArea* CurrentPlacedItemArea;
