@@ -1,4 +1,6 @@
 #include "InteractableItemParent.h"
+
+#include "CleaningManager.h"
 #include "Sweeper.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -58,7 +60,7 @@ void AInteractableItemParent::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AInteractableItemParent::CompleteOrganize()
+void AInteractableItemParent::CompleteOrganize_Implementation()
 {
 	IsInteractable = false;
 	ItemMesh->SetCollisionProfileName("BlockAll");

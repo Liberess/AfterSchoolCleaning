@@ -2,9 +2,6 @@
 #include "DrawDebugHelpers.h"
 #include "InteractableItemParent.h"
 
-#define print(duration, text) if(GEngine) GEngine->AddOnScreenDebugMessage(-1, duration, FColor::Yellow, text)
-#define printFString(duration, text, fstring) if(GEngine) GEngine->AddOnScreenDebugMessage(-1, duration, FColor::Yellow, FString::Printf(Text(text), fstring))
-
 APlacedItemArea::APlacedItemArea()
 {
 	OnActorBeginOverlap.AddDynamic(this, &APlacedItemArea::OnOverlapBegin);
