@@ -29,6 +29,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EPlacedAreaTag PlacedAreaTag;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(ClampMin=0, ClampMax=50))
+	float ProgressValue;
+
 	UPROPERTY(BlueprintReadWrite)
 	bool IsRotate;
 
@@ -51,6 +54,6 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void ResetLocation();
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void CompleteOrganize();
 };

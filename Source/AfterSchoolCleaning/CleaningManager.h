@@ -18,22 +18,19 @@ class AFTERSCHOOLCLEANING_API UCleaningManager : public UWorldSubsystem
 	
 public:
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
+	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(ClampMin = 0, ClampMax = 100))
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(ClampMin=0, ClampMax=100))
 	float TotalProgress;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta=(UIMin=0, UIMax=100))
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta=(UIMin=0, UIMax=100))
 	float OrganizeProgress;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	float RemoveProgress;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float MaxProgress;
-
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void IncreasedProgress(EProgressType ProgressType, float Progress);
+	
+	void SyncProgress();
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void DecreasedProgress(EProgressType ProgressType,float Progress);
+	void SetProgress(EProgressType ProgressType, float Progress);
 };
