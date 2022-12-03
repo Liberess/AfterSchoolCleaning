@@ -20,16 +20,20 @@ public:
 	AAI1Controller();
 
 protected:
-	virtual void BeginPlay() override;
 	virtual void OnPossess(APawn* InPawn) override;
+
+	UFUNCTION(Category = "FollowSpline")
+	void FindSplineActor();
 
 protected:
 	UPROPERTY()
 	TArray<ASplinePath*> SplinePaths;
 
+	//Spline that AI1 will follow
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "FollowSpline", meta = (AllowPrivateAccess = "true"))
 	ASplinePath* SplineReference;
 
+	//Timeline play speed
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "FollowSpline", meta = (AllowPrivateAccess = "true"))
 	float Duration;
 
@@ -42,13 +46,10 @@ protected:
 public:
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintCallable, Category = "FollowSpline")
-	void FindSplineActor();
-
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "FollowSpline")
 	void SetDuration();
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "FollowSpline")
+	UFUNCTION(BlueprintCallable, Category = "FollowSpline")
 	void MoveToSplinePath();
 
 	UFUNCTION()
@@ -57,4 +58,6 @@ public:
 	UFUNCTION()
 	void OnEndMovementTimeline();
 
+	UFUNCTION()
+	void CreateObstacleObj();
 };

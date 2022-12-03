@@ -17,15 +17,9 @@ public:
 	ASplinePath();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spline", meta = (AllowPrivateAccess = "true"))
 	class USplineComponent* SplineComponent;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
 	FORCEINLINE class USplineComponent* GetSplineComponent() const { return SplineComponent; }
 };

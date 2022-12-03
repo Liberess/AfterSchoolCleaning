@@ -12,17 +12,9 @@ AAI1Controller::AAI1Controller()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void AAI1Controller::BeginPlay()
-{
-	Super::BeginPlay();
-
-}
-
 void AAI1Controller::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
-
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, TEXT("OnPossess"));
 
 	FindSplineActor();
 	SetDuration();
@@ -82,7 +74,7 @@ void AAI1Controller::SetDuration_Implementation()
 }
 
 //타임라인 실행
-void AAI1Controller::MoveToSplinePath_Implementation()
+void AAI1Controller::MoveToSplinePath()
 {
 	FOnTimelineFloat ProgressFunction;
 	ProgressFunction.BindUFunction(this, TEXT("ProcessMovementTimeline"));
@@ -96,6 +88,11 @@ void AAI1Controller::MoveToSplinePath_Implementation()
 	MovementTimeline.SetLooping(true);
 	MovementTimeline.SetPlayRate(1.0f / Duration);
 	MovementTimeline.Play();
+}
 
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, MovementTimeline.IsPlaying()? TEXT("true") : TEXT("false"));
+void AAI1Controller::CreateObstacleObj()
+{
+	MovementTimeline.Stop();
+
+
 }
