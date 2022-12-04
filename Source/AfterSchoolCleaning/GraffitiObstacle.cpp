@@ -2,6 +2,7 @@
 
 
 #include "GraffitiObstacle.h"
+#include "ObjectPoolSubsystem.h"
 
 // Sets default values
 AGraffitiObstacle::AGraffitiObstacle()
@@ -9,7 +10,6 @@ AGraffitiObstacle::AGraffitiObstacle()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	
 }
 
 // Called when the game starts or when spawned
@@ -19,3 +19,18 @@ void AGraffitiObstacle::BeginPlay()
 	
 }
 
+void AGraffitiObstacle::WipeObstacle(int count)
+{
+	deleteCount =- count;
+
+	if (deleteCount <= 0)
+	{
+		DeleteObstacle();
+	}
+}
+
+void AGraffitiObstacle::DeleteObstacle()
+{
+	UObjectPoolSubsystem* ObjectPool = GetWorld()->GetSubsystem<UObjectPoolSubsystem>();
+	ObjectPool->ReturnObject(this);
+}

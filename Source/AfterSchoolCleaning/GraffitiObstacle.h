@@ -19,7 +19,13 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UPROPERTY(EditAnyWhere, BlueprintReadOnly, Category = "Graffiti Obstacle", meta = (AllowPrivateAccess = "true"))
+	int32 deleteCount;
+
 public:	
+	UFUNCTION(BlueprintCallable, Category = "Graffiti Obstacle")
+	void WipeObstacle(int count);
 
-
+	UFUNCTION(BlueprintCallable, Category = "Graffiti Obstacle")
+	void DeleteObstacle();
 };

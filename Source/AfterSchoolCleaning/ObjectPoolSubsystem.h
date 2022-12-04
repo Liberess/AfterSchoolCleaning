@@ -4,18 +4,22 @@
 
 #include "CoreMinimal.h"
 #include "Subsystems/WorldSubsystem.h"
-#include "GraffitiObstacle.h"
+#include "GameFramework/Actor.h"
 #include "ObjectPoolSubsystem.generated.h"
 
 /**
  * 
  */
+
 UCLASS()
 class AFTERSCHOOLCLEANING_API UObjectPoolSubsystem : public UWorldSubsystem
 {
 	GENERATED_BODY()
 
-	TArray<AGraffitiObstacle> Objects;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class AActor> ObsBlueprint;
+
+	TArray<AActor*> Objects;
 
 	void InstantiateObjects(int32 size);
 
@@ -27,7 +31,7 @@ public:
 	virtual void Deinitialize() override;
 
 	UFUNCTION()
-	AActor* SpawnObject();
+	AActor* SpawnObject(FVector spawnLocation, FRotator rotation);
 
 	UFUNCTION()
 	void ReturnObject(AActor* obj);
