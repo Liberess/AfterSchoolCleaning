@@ -10,6 +10,17 @@ AGraffitiObstacle::AGraffitiObstacle()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
+	mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	if (mesh != nullptr)
+	{
+		RootComponent = mesh;
+	}
+
+	collision = CreateDefaultSubobject<UBoxComponent>(TEXT("Box"));
+	if (collision != nullptr)
+	{
+		collision->SetupAttachment(RootComponent);
+	}
 }
 
 // Called when the game starts or when spawned

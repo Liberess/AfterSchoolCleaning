@@ -21,9 +21,12 @@ void UObjectPoolSubsystem::Deinitialize()
 void UObjectPoolSubsystem::InstantiateObjects(int32 size)
 {
 	static ConstructorHelpers::FObjectFinder<UBlueprint> Obstacle(TEXT("Blueprint'/Game/Weapon/Ammo.Ammo'"));
-	if (Obstacle.Object)
+	if (Obstacle.Succeeded())
 	{
-		ObsBlueprint = (UClass*)Obstacle.Object->GeneratedClass;
+		if (Obstacle.Object)
+		{
+			ObsBlueprint = (UClass*)Obstacle.Object->GeneratedClass;
+		}
 	}
 
 	UWorld* world = GetWorld();
