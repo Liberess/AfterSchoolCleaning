@@ -12,6 +12,14 @@ AAI1::AAI1()
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
+	ObjectPooler = CreateDefaultSubobject<UObjectPool>(TEXT("ObjectPooler"));
+
+	static ConstructorHelpers::FClassFinder<AGraffitiObstacle> Obstacle(TEXT("/Game/BluePrints/GraffitiObstacle/BP_WallGraffiti"));
+	if (Obstacle.Succeeded())
+	{
+		ObjectPooler->PooledObjectSubclass = Obstacle.Class;
+	}
+
 	//AI Controller ¼³Á¤
 	AIControllerClass = AAI1Controller::StaticClass();
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
@@ -23,11 +31,3 @@ void AAI1::BeginPlay()
 	Super::BeginPlay();
 
 }
-
-// Called to bind functionality to input
-void AAI1::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
-

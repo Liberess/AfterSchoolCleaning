@@ -2,7 +2,6 @@
 
 
 #include "GraffitiObstacle.h"
-#include "ObjectPoolSubsystem.h"
 
 // Sets default values
 AGraffitiObstacle::AGraffitiObstacle()
@@ -21,27 +20,47 @@ AGraffitiObstacle::AGraffitiObstacle()
 	{
 		collision->SetupAttachment(RootComponent);
 	}
+
+	SetActorEnableCollision(false);
 }
 
 // Called when the game starts or when spawned
 void AGraffitiObstacle::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	Init();
+	SetActive(true);
 }
 
-void AGraffitiObstacle::WipeObstacle(int count)
+void AGraffitiObstacle::SetActive(bool InActive)
 {
-	deleteCount =- count;
+	active = InActive;
+	SetActorHiddenInGame(!InActive);
+}
 
-	if (deleteCount <= 0)
+void AGraffitiObstacle::Deactivate()
+{
+	Init();
+	SetActive(false);
+}
+
+void AGraffitiObstacle::Init()
+{
+	curDeleteCount = deleteCount;
+	SetActorLocation(FVector().ZeroVector);
+	SetActorRotation(FRotator().ZeroRotator);
+}
+
+void AGraffitiObstacle::WipeObstacle(EObstacleType type, int count)
+{
+	if (type != Type)
+		return;
+
+	curDeleteCount =- count;
+
+	if (curDeleteCount <= 0)
 	{
-		DeleteObstacle();
+		Deactivate();
 	}
-}
-
-void AGraffitiObstacle::DeleteObstacle()
-{
-	UObjectPoolSubsystem* ObjectPool = GetWorld()->GetSubsystem<UObjectPoolSubsystem>();
-	ObjectPool->ReturnObject(Type, this);
 }

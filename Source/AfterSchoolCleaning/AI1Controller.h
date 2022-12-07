@@ -25,7 +25,6 @@ protected:
 	UFUNCTION(Category = "FollowSpline")
 	void FindSplineActor();
 
-protected:
 	UPROPERTY()
 	TArray<ASplinePath*> SplinePaths;
 
@@ -60,4 +59,13 @@ public:
 
 	UFUNCTION()
 	void CreateObstacleObj();
+
+private:
+	float SpawnCooldown;
+	FTimerHandle SpawnCooldownTimer;
+
+	void SpawnGraffity();
+	void PlayTimeline();
+
+	FHitResult RaycastToFindWall();
 };

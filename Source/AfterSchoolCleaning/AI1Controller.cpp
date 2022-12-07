@@ -16,9 +16,12 @@ void AAI1Controller::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
 
+	SpawnCooldown = Cast<AAI1>(InPawn)->GetSpawnCooldown();
+
 	FindSplineActor();
 	SetDuration();
 	MoveToSplinePath();
+	CreateObstacleObj();
 }
 
 void AAI1Controller::Tick(float DeltaTime)
@@ -43,7 +46,7 @@ void AAI1Controller::ProcessMovementTimeline(float value)
 
 void AAI1Controller::OnEndMovementTimeline()
 {
-
+	
 }
 
 //SplinePath 액터를 찾는다
@@ -92,7 +95,52 @@ void AAI1Controller::MoveToSplinePath()
 
 void AAI1Controller::CreateObstacleObj()
 {
-	MovementTimeline.Stop();
+	//MovementTimeline.Stop();
+	GetWorldTimerManager().SetTimer(SpawnCooldownTimer, this, &AAI1Controller::SpawnGraffity, SpawnCooldown, true);
+}
 
+void AAI1Controller::PlayTimeline()
+{
+	MovementTimeline.Play();
+}
 
+void AAI1Controller::SpawnGraffity()
+{
+	ACharacter* myCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+
+	AGraffitiObstacle* PoolableActor = Cast<AAI1>(GetPawn())->GetObjectPooler()->GetPooledObject();
+	if (PoolableActor == nullptr)
+	{
+		return;
+	}
+
+	FHitResult wallPos = RaycastToFindWall();
+	if (wallPos.Actor == NULL)
+	{
+		return;
+	}
+
+	FRotator newRot = GetPawn()->GetActorUpVector().Rotation() * -1.0f + wallPos.ImpactNormal.Rotation();
+
+	PoolableActor->SetActorRotation(newRot);
+
+	FVector newPos = wallPos.ImpactPoint + PoolableActor->GetActorUpVector() * 0.1f;
+	PoolableActor->SetActorLocation(newPos);
+
+	PoolableActor->SetActive(true);
+}
+
+FHitResult AAI1Controller::RaycastToFindWall()
+{
+	FHitResult hitResult;
+	FVector startLocation = GetPawn()->GetActorLocation();
+	FVector endLocation = GetPawn()->GetActorLocation() + GetPawn()->GetActorRightVector() * 150;
+
+	bool isHitResult = GetWorld()->LineTraceSingleByObjectType(
+		hitResult,
+		startLocation,
+		endLocation,
+		ECollisionChannel::ECC_WorldStatic);
+
+	return hitResult;
 }

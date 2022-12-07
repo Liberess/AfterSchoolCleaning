@@ -5,8 +5,14 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/BoxComponent.h"
-#include "ObjectPoolSubsystem.h"
 #include "GraffitiObstacle.generated.h"
+
+UENUM(BlueprintType)
+enum class EObstacleType : uint8
+{
+	EWallObs = 0	UMETA(DisplayName = "Obstacle Wall"),
+	EFloorObs		UMETA(DisplayName = "Obstacle Floor"),
+};
 
 UCLASS()
 class AFTERSCHOOLCLEANING_API AGraffitiObstacle : public AActor
@@ -33,10 +39,19 @@ protected:
 	UPROPERTY(EditAnyWhere, BlueprintReadOnly, Category = "Graffiti Obstacle", meta = (AllowPrivateAccess = "true"))
 	int32 deleteCount;
 
+	int32 curDeleteCount;
+
+	bool active;
+
+	void Init();
+
+	void Deactivate();
+
 public:	
-	UFUNCTION(BlueprintCallable, Category = "Graffiti Obstacle")
-	void WipeObstacle(int count);
+	void SetActive(bool InActive);
+
+	FORCEINLINE bool GetActive() { return active; }
 
 	UFUNCTION(BlueprintCallable, Category = "Graffiti Obstacle")
-	void DeleteObstacle();
+	void WipeObstacle(EObstacleType _type, int count);
 };

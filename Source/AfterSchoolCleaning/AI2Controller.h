@@ -23,10 +23,20 @@ public:
 
 	static const FName Key_NextPos;
 
+	UFUNCTION()
+	void CreateObstacleObj();
+
 private:
 	UPROPERTY()
 	class UBehaviorTree* BTAsset;
 
 	UPROPERTY()
 	class UBlackboardData* BBAsset;
+
+	float SpawnCooldown;
+	FTimerHandle SpawnCooldownTimer;
+
+	void SpawnGraffity();
+
+	FHitResult RaycastToFindWall();
 };

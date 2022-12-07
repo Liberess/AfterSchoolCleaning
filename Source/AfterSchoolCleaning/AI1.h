@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "SplinePath.h"
+#include "ObjectPool.h"
 #include "AI1.generated.h"
 
 UCLASS()
@@ -20,7 +20,14 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+private:
+	UPROPERTY(EditAnywhere, Category = "Spawner")
+	UObjectPool* ObjectPooler;
+
+	UPROPERTY(EditAnywhere, Category = "Spawner")
+	float SpawnCooldown = 1.2f;
+
+public:
+	FORCEINLINE class UObjectPool* GetObjectPooler() { return ObjectPooler; }
+	FORCEINLINE float GetSpawnCooldown() { return SpawnCooldown; }
 };
