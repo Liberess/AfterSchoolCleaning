@@ -10,7 +10,7 @@
 AAI1::AAI1()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	//AI Controller ¼³Á¤
 	AIControllerClass = AAI1Controller::StaticClass();
@@ -21,13 +21,6 @@ AAI1::AAI1()
 void AAI1::BeginPlay()
 {
 	Super::BeginPlay();
-
-}
-
-// Called every frame
-void AAI1::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
 
 }
 

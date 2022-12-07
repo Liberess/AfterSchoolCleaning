@@ -43,5 +43,5 @@ void AGraffitiObstacle::WipeObstacle(int count)
 void AGraffitiObstacle::DeleteObstacle()
 {
 	UObjectPoolSubsystem* ObjectPool = GetWorld()->GetSubsystem<UObjectPoolSubsystem>();
-	ObjectPool->ReturnObject(this);
+	ObjectPool->ReturnObject(Type, this);
 }

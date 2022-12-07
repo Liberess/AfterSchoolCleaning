@@ -5,27 +5,40 @@
 
 bool UObjectPoolSubsystem::ShouldCreateSubsystem(UObject* Outer) const
 {
+	Super::ShouldCreateSubsystem(Outer);
+
 	return true;
 }
 
 void UObjectPoolSubsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
+	Super::Initialize(Collection);
+
 	InstantiateObjects(100);
 }
 
 void UObjectPoolSubsystem::Deinitialize()
 {
-
+	Super::Deinitialize();
 }
 
 void UObjectPoolSubsystem::InstantiateObjects(int32 size)
 {
-	static ConstructorHelpers::FObjectFinder<UBlueprint> Obstacle(TEXT("Blueprint'/Game/Weapon/Ammo.Ammo'"));
-	if (Obstacle.Succeeded())
+	static ConstructorHelpers::FObjectFinder<UBlueprint> WallObstacle(TEXT("/Game/BluePrints/GraffitiObstacle/BP_WallGraffiti.BP_WallGraffiti"));
+	if (WallObstacle.Succeeded())
 	{
-		if (Obstacle.Object)
+		if (WallObstacle.Object)
 		{
-			ObsBlueprint = (UClass*)Obstacle.Object->GeneratedClass;
+			WallObsBlueprint = (UClass*)WallObstacle.Object->GeneratedClass;
+		}
+	}
+
+	static ConstructorHelpers::FObjectFinder<UBlueprint> FloorObstacle(TEXT("/Game/BluePrints/GraffitiObstacle/BP_FloorGraffiti"));
+	if (FloorObstacle.Succeeded())
+	{
+		if (FloorObstacle.Object)
+		{
+			FloorObsBlueprint = (UClass*)FloorObstacle.Object->GeneratedClass;
 		}
 	}
 
@@ -38,32 +51,62 @@ void UObjectPoolSubsystem::InstantiateObjects(int32 size)
 			FRotator rotator = FRotator::ZeroRotator;
 			FVector SpawnLocation = FVector::ZeroVector;
 
-			AActor* temp = world->SpawnActor<AActor>(ObsBlueprint, SpawnLocation, rotator, SpawnParams);
-
-			if (temp != nullptr)
+			AActor* WallObs = world->SpawnActor<AActor>(WallObsBlueprint, SpawnLocation, rotator, SpawnParams);
+			if (WallObs != nullptr)
 			{
-				temp->SetActorHiddenInGame(true);
-				Objects.Add(temp);
+				WallObs->SetActorHiddenInGame(true);
+				WallObjects.Add(WallObs);
+			}
+
+			AActor* FloorObs = world->SpawnActor<AActor>(FloorObsBlueprint, SpawnLocation, rotator, SpawnParams);
+			if (FloorObs != nullptr)
+			{
+				FloorObs->SetActorHiddenInGame(true);
+				FloorObjects.Add(WallObs);
 			}
 		}
 	}
 }
 
-AActor* UObjectPoolSubsystem::SpawnObject(FVector spawnLocation, FRotator rotation)
+AActor* UObjectPoolSubsystem::SpawnObject(EObstacleType obstacle, FVector spawnLocation, FRotator rotation)
 {
 	AActor* temp;
 
-	if (Objects.Num() > 0)
+	switch (obstacle)
 	{
-		temp = Objects.Pop();
+		case EObstacleType::E_Wall:
+			if (WallObjects.Num() > 0)
+			{
+				temp = WallObjects.Pop();
 
-		temp->SetActorLocation(spawnLocation);
-		temp->SetActorRotation(rotation);
-	}
-	else
-	{
-		FActorSpawnParameters SpawnParams;
-		temp = GetWorld()->SpawnActor<AActor>(ObsBlueprint, spawnLocation, rotation, SpawnParams);
+				temp->SetActorLocation(spawnLocation);
+				temp->SetActorRotation(rotation);
+			}
+			else
+			{
+				FActorSpawnParameters SpawnParams;
+				temp = GetWorld()->SpawnActor<AActor>(WallObsBlueprint, spawnLocation, rotation, SpawnParams);
+			}
+			break;
+
+		case EObstacleType::E_Floor:
+			if (FloorObjects.Num() > 0)
+			{
+				temp = FloorObjects.Pop();
+
+				temp->SetActorLocation(spawnLocation);
+				temp->SetActorRotation(rotation);
+			}
+			else
+			{
+				FActorSpawnParameters SpawnParams;
+				temp = GetWorld()->SpawnActor<AActor>(FloorObsBlueprint, spawnLocation, rotation, SpawnParams);
+			}
+			break;
+
+		default:
+			temp = nullptr;
+			break;
 	}
 
 	temp->SetActorHiddenInGame(false);
@@ -71,10 +114,20 @@ AActor* UObjectPoolSubsystem::SpawnObject(FVector spawnLocation, FRotator rotati
 	return temp;
 }
 
-void UObjectPoolSubsystem::ReturnObject(AActor* obj)
+void UObjectPoolSubsystem::ReturnObject(EObstacleType obstacle, AActor* obj)
 {
 	obj->SetActorLocation(FVector::ZeroVector);
 	obj->SetActorRotation(FRotator::ZeroRotator);
 	obj->SetActorHiddenInGame(true);
-	Objects.Add(obj);
+
+	switch (obstacle)
+	{
+		case EObstacleType::E_Wall:
+			WallObjects.Add(obj);
+			break;
+
+		case EObstacleType::E_Floor:
+			FloorObjects.Add(obj);
+			break;
+	}
 }

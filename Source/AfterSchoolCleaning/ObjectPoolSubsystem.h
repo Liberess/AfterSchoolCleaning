@@ -11,15 +11,28 @@
  * 
  */
 
+UENUM(BlueprintType)
+enum class EObstacleType : uint8
+{
+	E_Wall = 0	UMETA(DisplayName = "Wall Obstacle"),
+	E_Floor		UMETA(DisplayName = "Floor Obstacle"),
+};
+
+
 UCLASS()
 class AFTERSCHOOLCLEANING_API UObjectPoolSubsystem : public UWorldSubsystem
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<class AActor> ObsBlueprint;
+	UPROPERTY()
+	TSubclassOf<class AActor> WallObsBlueprint;
 
-	TArray<AActor*> Objects;
+	UPROPERTY()
+	TSubclassOf<class AActor> FloorObsBlueprint;
+
+	TArray<AActor*> WallObjects;
+
+	TArray<AActor*> FloorObjects;
 
 	void InstantiateObjects(int32 size);
 
@@ -31,8 +44,8 @@ public:
 	virtual void Deinitialize() override;
 
 	UFUNCTION()
-	AActor* SpawnObject(FVector spawnLocation, FRotator rotation);
+	AActor* SpawnObject(EObstacleType obstacle, FVector spawnLocation, FRotator rotation);
 
 	UFUNCTION()
-	void ReturnObject(AActor* obj);
+	void ReturnObject(EObstacleType obstacle, AActor* obj);
 };

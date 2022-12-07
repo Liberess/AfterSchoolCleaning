@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/BoxComponent.h"
+#include "ObjectPoolSubsystem.h"
 #include "GraffitiObstacle.generated.h"
 
 UCLASS()
@@ -25,6 +26,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "Collision", meta = (AllowPrivateAccess = "true"))
 	UBoxComponent* collision;
+
+	UPROPERTY(EditAnywhere, Category = "Graffiti Obstacle", meta = (AllowPrivateAccess = "true"))
+	EObstacleType Type;
 
 	UPROPERTY(EditAnyWhere, BlueprintReadOnly, Category = "Graffiti Obstacle", meta = (AllowPrivateAccess = "true"))
 	int32 deleteCount;
