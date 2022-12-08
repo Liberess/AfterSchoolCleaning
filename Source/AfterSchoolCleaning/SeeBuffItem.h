@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "ItemParent.h"
+#include "Engine/PostProcessVolume.h"
 #include "SeeBuffItem.generated.h"
 
 UCLASS()
@@ -15,4 +16,13 @@ public:
 	virtual void BeginPlay() override;
 	
 	virtual void UseItem() override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float SeeDuration;
+
+	void DisableOutline();
+	
+	FTimerHandle SeeTimer;
+
+	APostProcessVolume* PostVolume;
 };
