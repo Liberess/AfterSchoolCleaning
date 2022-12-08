@@ -32,7 +32,7 @@ void ASeeBuffItem::BeginPlay()
 		PostVolume = Cast<APostProcessVolume>(Actor);
 
 	if (SeeDuration <= 0.0f)
-		SeeDuration = 10.0f;
+		SeeDuration = 20.0f;
 }
 
 void ASeeBuffItem::UseItem()
