@@ -38,15 +38,13 @@ protected:
 	ETool Type;
 
 	UPROPERTY(EditAnyWhere, BlueprintReadOnly, Category = "Graffiti Obstacle", meta = (AllowPrivateAccess = "true"))
-	int32 deleteCount;
+	int32 deleteCount = 3;
 
 	int32 curDeleteCount;
 
 	bool active;
 
 	void Init();
-
-	void Deactivate();
 
 public:	
 	virtual void Tick(float DeltaTime) override;
@@ -58,11 +56,12 @@ public:
 	bool IsInteractable;
 
 	void SetActive(bool InActive);
+	void Deactivate();
 
 	FORCEINLINE bool GetActive() { return active; }
 
 	UFUNCTION(BlueprintCallable, Category = "Graffiti Obstacle")
-	void WipeObstacle(ETool _type, int count);
+	void WipeObstacle(ETool _type, int32 count);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void CompleteWipe();

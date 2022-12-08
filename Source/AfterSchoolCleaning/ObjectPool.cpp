@@ -40,7 +40,7 @@ void UObjectPool::BeginPlay()
 			for (int i = 0; i < PoolSize; i++)
 			{
 				AGraffitiObstacle* PoolableActor = World->SpawnActor<AGraffitiObstacle>(PooledObjectSubclass, FVector().ZeroVector, FRotator().ZeroRotator);
-				PoolableActor->SetActive(false);
+				PoolableActor->Deactivate();
 				Pool.Add(PoolableActor);
 			}
 		}

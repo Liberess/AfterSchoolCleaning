@@ -23,9 +23,11 @@ AGraffitiObstacle::AGraffitiObstacle()
 		collision->SetCollisionProfileName("InteractableActor");
 	}
 
-	Tags.Add(TEXT("Interactable"));
+	Deactivate();
 
-	SetActorEnableCollision(false);
+	curDeleteCount = deleteCount;
+
+	Tags.Add(TEXT("Interactable"));
 }
 
 // Called when the game starts or when spawned
@@ -33,8 +35,6 @@ void AGraffitiObstacle::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Init();
-	SetActive(true);
 }
 
 
@@ -46,7 +46,10 @@ void AGraffitiObstacle::Tick(float DeltaTime)
 void AGraffitiObstacle::SetActive(bool InActive)
 {
 	active = InActive;
+	collision->SetSimulatePhysics(InActive);
 	SetActorHiddenInGame(!InActive);
+	SetActorEnableCollision(InActive);
+	SetActorTickEnabled(InActive);
 }
 
 void AGraffitiObstacle::Deactivate()
@@ -57,21 +60,21 @@ void AGraffitiObstacle::Deactivate()
 
 void AGraffitiObstacle::Init()
 {
-	curDeleteCount = deleteCount;
+	curDeleteCount = 0;
 	IsInteractable = true;
-	mesh->SetCollisionProfileName("InteractableActor");
 	SetActorLocation(FVector().ZeroVector);
 	SetActorRotation(FRotator().ZeroRotator);
 }
 
-void AGraffitiObstacle::WipeObstacle(ETool type, int count)
+void AGraffitiObstacle::WipeObstacle(ETool type, int32 count)
 {
 	if (type != Type)
 		return;
 
-	curDeleteCount =- count;
+	curDeleteCount = curDeleteCount + count;
+	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, FString::FromInt(curDeleteCount));
 
-	if (curDeleteCount <= 0)
+	if (curDeleteCount >= deleteCount)
 	{
 		CompleteWipe();
 	}
