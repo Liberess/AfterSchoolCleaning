@@ -12,17 +12,20 @@ enum class ETool : uint8
 	Floor UMETA(DisplayName = "Floor")
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, Blueprintable)
 struct FToolStat
 {
 	GENERATED_BODY()
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FText ToolName;
+	FName ToolName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int MaxUseToolCount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int RemoveDamage;
 };
 
 UCLASS()
@@ -102,6 +105,9 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void UseTool();
+
+	UFUNCTION(BlueprintCallable)
+	void SetToolRemoveDamage(const ETool ToolType, const int NewDamage);
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void PutObject();

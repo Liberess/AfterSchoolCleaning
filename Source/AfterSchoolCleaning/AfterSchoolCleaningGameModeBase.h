@@ -41,4 +41,6 @@ public:
 
 	FWallDebuffDel Fuc_WallDebuff;
 	FFloorDebuffDel Fuc_FloorDebuff;
+
+	ASweeper* Sweeper;
 };

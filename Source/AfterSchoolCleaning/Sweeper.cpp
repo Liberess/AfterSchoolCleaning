@@ -34,12 +34,6 @@ void ASweeper::BeginPlay()
 void ASweeper::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	/*if(MoveDirection.IsZero())
-	{
-		const FVector NewLocation = GetActorLocation() + (MoveDirection * DeltaTime * MoveSpeed);
-		SetActorLocation(NewLocation);
-	}*/
 }
 
 void ASweeper::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -116,6 +110,12 @@ void ASweeper::ChangeTool(ETool Tool)
 	
 	CurrentTool = Tool;
 	GEngine->AddOnScreenDebugMessage(1, 2.0f, FColor::Green, FString::Printf(TEXT("%d"), (int)Tool));
+}
+
+void ASweeper::SetToolRemoveDamage(const ETool ToolType, const int NewDamage)
+{
+	//CurrentRemoveDamages[static_cast<int>(ToolType)] = NewDamage;
+	ToolStats[static_cast<int>(ToolType)].RemoveDamage = NewDamage;
 }
 
 void ASweeper::PutObject_Implementation()

@@ -10,7 +10,7 @@ class AFTERSCHOOLCLEANING_API AItemParent : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
+public:
 	AItemParent();
 
 protected:
@@ -30,4 +30,7 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	virtual void UseItem();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float BuffDuration;
 };
