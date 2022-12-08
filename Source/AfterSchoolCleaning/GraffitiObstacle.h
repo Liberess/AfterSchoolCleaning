@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/BoxComponent.h"
+#include "Sweeper.h"
 #include "GraffitiObstacle.generated.h"
 
 UENUM(BlueprintType)
@@ -34,7 +35,7 @@ protected:
 	UBoxComponent* collision;
 
 	UPROPERTY(EditAnywhere, Category = "Graffiti Obstacle", meta = (AllowPrivateAccess = "true"))
-	EObstacleType Type;
+	ETool Type;
 
 	UPROPERTY(EditAnyWhere, BlueprintReadOnly, Category = "Graffiti Obstacle", meta = (AllowPrivateAccess = "true"))
 	int32 deleteCount;
@@ -48,10 +49,21 @@ protected:
 	void Deactivate();
 
 public:	
+	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ClampMin = 0, ClampMax = 50))
+	float ProgressValue;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool IsInteractable;
+
 	void SetActive(bool InActive);
 
 	FORCEINLINE bool GetActive() { return active; }
 
 	UFUNCTION(BlueprintCallable, Category = "Graffiti Obstacle")
-	void WipeObstacle(EObstacleType _type, int count);
+	void WipeObstacle(ETool _type, int count);
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void CompleteWipe();
 };

@@ -12,6 +12,8 @@ const FName AAI2Controller::Key_NextPos(TEXT("NextPos"));
 
 AAI2Controller::AAI2Controller()
 {
+	PrimaryActorTick.bCanEverTick = true;
+
 	static ConstructorHelpers::FObjectFinder<UBlackboardData> BBObject(TEXT("/Game/BluePrints/BP_AI/AI2/BB_AI2"));
 	if (BBObject.Succeeded())
 	{

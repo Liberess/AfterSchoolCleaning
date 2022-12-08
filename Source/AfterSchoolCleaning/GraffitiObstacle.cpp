@@ -7,19 +7,23 @@
 AGraffitiObstacle::AGraffitiObstacle()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 
 	mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	if (mesh != nullptr)
 	{
 		RootComponent = mesh;
+		mesh->SetCollisionProfileName("InteractableActor");
 	}
 
 	collision = CreateDefaultSubobject<UBoxComponent>(TEXT("Box"));
 	if (collision != nullptr)
 	{
 		collision->SetupAttachment(RootComponent);
+		collision->SetCollisionProfileName("InteractableActor");
 	}
+
+	Tags.Add(TEXT("Interactable"));
 
 	SetActorEnableCollision(false);
 }
@@ -31,6 +35,12 @@ void AGraffitiObstacle::BeginPlay()
 
 	Init();
 	SetActive(true);
+}
+
+
+void AGraffitiObstacle::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
 }
 
 void AGraffitiObstacle::SetActive(bool InActive)
@@ -48,11 +58,13 @@ void AGraffitiObstacle::Deactivate()
 void AGraffitiObstacle::Init()
 {
 	curDeleteCount = deleteCount;
+	IsInteractable = true;
+	mesh->SetCollisionProfileName("InteractableActor");
 	SetActorLocation(FVector().ZeroVector);
 	SetActorRotation(FRotator().ZeroRotator);
 }
 
-void AGraffitiObstacle::WipeObstacle(EObstacleType type, int count)
+void AGraffitiObstacle::WipeObstacle(ETool type, int count)
 {
 	if (type != Type)
 		return;
@@ -61,6 +73,13 @@ void AGraffitiObstacle::WipeObstacle(EObstacleType type, int count)
 
 	if (curDeleteCount <= 0)
 	{
-		Deactivate();
+		CompleteWipe();
 	}
+}
+
+void AGraffitiObstacle::CompleteWipe_Implementation()
+{
+	IsInteractable = false;
+
+	Deactivate();
 }
