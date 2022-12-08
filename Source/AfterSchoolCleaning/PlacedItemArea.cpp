@@ -11,6 +11,7 @@ APlacedItemArea::APlacedItemArea()
 void APlacedItemArea::BeginPlay()
 {
 	Super::BeginPlay();
+
 	OnDrawDebugBox(FColor::Yellow);
 }
 

@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AIController.h"
+#include "AIControllerBase.h"
 #include "SplinePath.h"
 #include "Components/TimelineComponent.h"
 #include "AI1Controller.generated.h"
@@ -12,7 +12,7 @@
  * 
  */
 UCLASS()
-class AFTERSCHOOLCLEANING_API AAI1Controller : public AAIController
+class AFTERSCHOOLCLEANING_API AAI1Controller : public AAIControllerBase
 {
 	GENERATED_BODY()
 
@@ -20,11 +20,6 @@ public:
 	AAI1Controller();
 
 protected:
-	virtual void OnPossess(APawn* InPawn) override;
-
-	UFUNCTION(Category = "FollowSpline")
-	void FindSplineActor();
-
 	UPROPERTY()
 	TArray<ASplinePath*> SplinePaths;
 
@@ -43,13 +38,14 @@ protected:
 	FTimeline MovementTimeline;
 
 public:
+	virtual void OnPossess(APawn* InPawn) override;
+
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "FollowSpline")
-	void SetDuration();
+	virtual void RunAI() override;
+	virtual void StopAI() override;
 
-	UFUNCTION(BlueprintCallable, Category = "FollowSpline")
-	void MoveToSplinePath();
+	virtual void CreateObstacleObj() override;
 
 	UFUNCTION()
 	void ProcessMovementTimeline(float value);
@@ -57,15 +53,17 @@ public:
 	UFUNCTION()
 	void OnEndMovementTimeline();
 
-	UFUNCTION()
-	void CreateObstacleObj();
+	UFUNCTION(Category = "FollowSpline")
+	void FindSplineActor();
+
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent, Category = "FollowSpline")
+	void SetDuration();
+
+	UFUNCTION(BlueprintCallable, Category = "FollowSpline")
+	void MoveToSplinePath();
 
 private:
-	float SpawnCooldown;
-	FTimerHandle SpawnCooldownTimer;
+	virtual void SpawnGraffiti() override;
 
-	void SpawnGraffity();
-	void PlayTimeline();
-
-	FHitResult RaycastToFindWall();
+	virtual FHitResult RaycastToFindWall() override;
 };

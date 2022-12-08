@@ -3,28 +3,21 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "AIController.h"
+#include "AIControllerBase.h"
 #include "AI2Controller.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class AFTERSCHOOLCLEANING_API AAI2Controller : public AAIController
+class AFTERSCHOOLCLEANING_API AAI2Controller : public AAIControllerBase
 {
 	GENERATED_BODY()
 
 public:
 	AAI2Controller();
-	virtual void OnPossess(APawn* InPawn) override;
-
-	void RunAI();
-	void StopAI();
 
 	static const FName Key_NextPos;
-
-	UFUNCTION()
-	void CreateObstacleObj();
 
 private:
 	UPROPERTY()
@@ -33,10 +26,16 @@ private:
 	UPROPERTY()
 	class UBlackboardData* BBAsset;
 
-	float SpawnCooldown;
-	FTimerHandle SpawnCooldownTimer;
+public:
+	virtual void OnPossess(APawn* InPawn) override;
 
-	void SpawnGraffity();
+	virtual void RunAI() override;
+	virtual void StopAI() override;
 
-	FHitResult RaycastToFindWall();
+	virtual void CreateObstacleObj() override;
+
+private:
+	virtual void SpawnGraffiti() override;
+
+	virtual FHitResult RaycastToFindWall() override;
 };
