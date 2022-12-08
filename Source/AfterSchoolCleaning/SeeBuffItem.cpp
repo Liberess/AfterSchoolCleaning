@@ -35,12 +35,9 @@ void ASeeBuffItem::BeginPlay()
 
 void ASeeBuffItem::UseItem()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Cyan, TEXT("SeeBuffItem::UseItem"));
-
-	SetActorHiddenInGame(true);
-	SetActorEnableCollision(false);
-
 	AAfterSchoolCleaningGameModeBase* MyGameMode = Cast<AAfterSchoolCleaningGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
 	if(IsValid(MyGameMode))
 		MyGameMode->SetOutlinePostProcess(true, SeeDuration);
+
+	Destroy();
 }
