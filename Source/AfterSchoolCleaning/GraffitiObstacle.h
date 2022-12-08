@@ -8,13 +8,6 @@
 #include "Sweeper.h"
 #include "GraffitiObstacle.generated.h"
 
-UENUM(BlueprintType)
-enum class EObstacleType : uint8
-{
-	EWallObs = 0	UMETA(DisplayName = "Obstacle Wall"),
-	EFloorObs		UMETA(DisplayName = "Obstacle Floor"),
-};
-
 UCLASS()
 class AFTERSCHOOLCLEANING_API AGraffitiObstacle : public AActor
 {

@@ -1,5 +1,4 @@
 #include "AfterSchoolCleaningGameModeBase.h"
-
 #include "Kismet/GameplayStatics.h"
 
 AAfterSchoolCleaningGameModeBase::AAfterSchoolCleaningGameModeBase()
@@ -8,9 +7,7 @@ AAfterSchoolCleaningGameModeBase::AAfterSchoolCleaningGameModeBase()
 		TEXT("/Game/Blueprints/BP_Sweeper"));
 
 	if (PlayerPawnBPClass.Class != nullptr)
-	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
-	}
 }
 
 void AAfterSchoolCleaningGameModeBase::BeginPlay()
@@ -41,4 +38,9 @@ void AAfterSchoolCleaningGameModeBase::SetOutlinePostProcess(bool Active, float 
 	{
 		PostVolume->bEnabled = false;
 	}
+}
+
+void AAfterSchoolCleaningGameModeBase::SetObstacleDebuff(EObstacleType ObsType, bool Active, float Duration)
+{
+	
 }
