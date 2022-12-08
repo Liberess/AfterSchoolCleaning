@@ -15,13 +15,10 @@ AAI1Controller::AAI1Controller()
 void AAI1Controller::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
-
-	SpawnCooldown = Cast<AAI1>(InPawn)->GetSpawnCooldown();
-
+	
 	FindSplineActor();
 	SetDuration();
 	MoveToSplinePath();
-	CreateObstacleObj();
 }
 
 void AAI1Controller::Tick(float DeltaTime)
@@ -32,6 +29,24 @@ void AAI1Controller::Tick(float DeltaTime)
 	{
 		MovementTimeline.TickTimeline(DeltaTime);
 	}
+}
+
+void AAI1Controller::RunAI()
+{
+	MovementTimeline.Play();
+	CreateObstacleObj();
+	GetPawn()->SetActorRotation(FRotator().ZeroRotator);
+}
+
+void AAI1Controller::StopAI()
+{
+	MovementTimeline.Stop();
+	GetWorldTimerManager().ClearTimer(SpawnCooldownTimer);
+}
+
+void AAI1Controller::CreateObstacleObj()
+{
+	GetWorldTimerManager().SetTimer(SpawnCooldownTimer, this, &AAI1Controller::SpawnGraffiti, SpawnCooldown, true);
 }
 
 void AAI1Controller::ProcessMovementTimeline(float value)
@@ -93,22 +108,11 @@ void AAI1Controller::MoveToSplinePath()
 	MovementTimeline.Play();
 }
 
-void AAI1Controller::CreateObstacleObj()
-{
-	//MovementTimeline.Stop();
-	GetWorldTimerManager().SetTimer(SpawnCooldownTimer, this, &AAI1Controller::SpawnGraffity, SpawnCooldown, true);
-}
-
-void AAI1Controller::PlayTimeline()
-{
-	MovementTimeline.Play();
-}
-
-void AAI1Controller::SpawnGraffity()
+void AAI1Controller::SpawnGraffiti()
 {
 	ACharacter* myCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 
-	AGraffitiObstacle* PoolableActor = Cast<AAI1>(GetPawn())->GetObjectPooler()->GetPooledObject();
+	AGraffitiObstacle* PoolableActor = Cast<AAIBase>(GetPawn())->GetObjectPooler()->GetPooledObject();
 	if (PoolableActor == nullptr)
 	{
 		return;

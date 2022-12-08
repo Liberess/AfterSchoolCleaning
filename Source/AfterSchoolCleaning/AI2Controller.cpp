@@ -12,7 +12,7 @@ const FName AAI2Controller::Key_NextPos(TEXT("NextPos"));
 
 AAI2Controller::AAI2Controller()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	static ConstructorHelpers::FObjectFinder<UBlackboardData> BBObject(TEXT("/Game/BluePrints/BP_AI/AI2/BB_AI2"));
 	if (BBObject.Succeeded())
@@ -30,10 +30,9 @@ void AAI2Controller::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
 
-	SpawnCooldown = Cast<AAI2>(InPawn)->GetSpawnCooldown();
+	SpawnCooldown = Cast<AAIBase>(InPawn)->GetSpawnCooldown();
 
 	RunAI();
-	CreateObstacleObj();
 }
 
 void AAI2Controller::RunAI()
@@ -42,6 +41,9 @@ void AAI2Controller::RunAI()
 	{
 		RunBehaviorTree(BTAsset);
 	}
+
+	CreateObstacleObj();
+	GetPawn()->SetActorRotation(FRotator().ZeroRotator);
 }
 
 void AAI2Controller::StopAI()
@@ -50,18 +52,20 @@ void AAI2Controller::StopAI()
 	if (nullptr == BehaviorTreeComponent) return;
 
 	BehaviorTreeComponent->StopTree(EBTStopMode::Safe);
+
+	GetWorldTimerManager().ClearTimer(SpawnCooldownTimer);
 }
 
 void AAI2Controller::CreateObstacleObj()
 {
-	GetWorldTimerManager().SetTimer(SpawnCooldownTimer, this, &AAI2Controller::SpawnGraffity, SpawnCooldown, true);
+	GetWorldTimerManager().SetTimer(SpawnCooldownTimer, this, &AAI2Controller::SpawnGraffiti, SpawnCooldown, true);
 }
 
-void AAI2Controller::SpawnGraffity()
+void AAI2Controller::SpawnGraffiti()
 {
 	ACharacter* myCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 
-	AGraffitiObstacle* PoolableActor = Cast<AAI2>(GetPawn())->GetObjectPooler()->GetPooledObject();
+	AGraffitiObstacle* PoolableActor = Cast<AAIBase>(GetPawn())->GetObjectPooler()->GetPooledObject();
 	if (PoolableActor == nullptr)
 	{
 		return;

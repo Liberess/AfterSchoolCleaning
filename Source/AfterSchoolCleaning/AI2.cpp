@@ -7,11 +7,6 @@
 // Sets default values
 AAI2::AAI2()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
-
-	ObjectPooler = CreateDefaultSubobject<UObjectPool>(TEXT("ObjectPooler"));
-
 	static ConstructorHelpers::FClassFinder<AGraffitiObstacle> Obstacle(TEXT("/Game/BluePrints/GraffitiObstacle/BP_FloorGraffiti"));
 	if (Obstacle.Succeeded())
 	{
