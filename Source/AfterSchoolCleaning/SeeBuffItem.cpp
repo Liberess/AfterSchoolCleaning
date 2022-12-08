@@ -1,4 +1,6 @@
 #include "SeeBuffItem.h"
+
+#include "AfterSchoolCleaningGameModeBase.h"
 #include "Kismet/GameplayStatics.h"
 
 ASeeBuffItem::ASeeBuffItem()
@@ -27,10 +29,6 @@ void ASeeBuffItem::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	AActor* Actor = UGameplayStatics::GetActorOfClass(this, APostProcessVolume::StaticClass());
-	if(IsValid(Actor))
-		PostVolume = Cast<APostProcessVolume>(Actor);
-
 	if (SeeDuration <= 0.0f)
 		SeeDuration = 20.0f;
 }
@@ -39,21 +37,10 @@ void ASeeBuffItem::UseItem()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Cyan, TEXT("SeeBuffItem::UseItem"));
 
-	if (IsValid(PostVolume))
-	{
-		PostVolume->bEnabled = true;
-		SetActorHiddenInGame(true);
-		SetActorEnableCollision(false);
-		GetWorldTimerManager().SetTimer(SeeTimer, this, &ASeeBuffItem::DisableOutline, SeeDuration, false);
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Cyan, TEXT("No!!"));
-	}
-}
+	SetActorHiddenInGame(true);
+	SetActorEnableCollision(false);
 
-void ASeeBuffItem::DisableOutline()
-{
-	PostVolume->bEnabled = false;
-	Destroy();
+	AAfterSchoolCleaningGameModeBase* MyGameMode = Cast<AAfterSchoolCleaningGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+	if(IsValid(MyGameMode))
+		MyGameMode->SetOutlinePostProcess(true, SeeDuration);
 }

@@ -19,10 +19,4 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float SeeDuration;
-
-	void DisableOutline();
-	
-	FTimerHandle SeeTimer;
-
-	APostProcessVolume* PostVolume;
 };
