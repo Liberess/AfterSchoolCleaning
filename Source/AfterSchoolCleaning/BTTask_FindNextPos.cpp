@@ -26,7 +26,8 @@ EBTNodeResult::Type UBTTask_FindNextPos::ExecuteTask(UBehaviorTreeComponent& Own
 	}
 
 	FNavLocation NextPos;
-	if (NavSystem->GetRandomPointInNavigableRadius(FVector::ZeroVector, 500.0f, NextPos))
+	FVector Origin(650.0f, 520.0f, 0.0f);
+	if (NavSystem->GetRandomPointInNavigableRadius(Origin, 500.0f, NextPos))
 	{
 		OwnerComp.GetBlackboardComponent()->SetValueAsVector(AAI2Controller::Key_NextPos, NextPos.Location);
 		return EBTNodeResult::Succeeded;
