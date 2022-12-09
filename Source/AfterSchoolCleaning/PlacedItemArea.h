@@ -9,7 +9,8 @@ enum class EPlacedAreaTag : uint8
 {
 	A UMETA(DisplayName = "A"),
 	B UMETA(DisplayName = "B"),
-	C UMETA(DisplayName = "C")
+	C UMETA(DisplayName = "C"),
+	D UMETA(DisplayName = "D")
 };
 
 UCLASS()
