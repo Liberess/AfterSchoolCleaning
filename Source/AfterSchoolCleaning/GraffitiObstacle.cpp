@@ -80,6 +80,13 @@ void AGraffitiObstacle::WipeObstacle(ETool type, int32 count)
 	}
 }
 
+void AGraffitiObstacle::CreateGraffitiObstacle_Implementation()
+{
+	IsInteractable = true;
+
+	SetActive(true);
+}
+
 void AGraffitiObstacle::CompleteWipe_Implementation()
 {
 	IsInteractable = false;

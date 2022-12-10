@@ -81,7 +81,7 @@ void AAI2Controller::SpawnGraffiti()
 
 	PoolableActor->SetActorLocation(newPos);
 
-	PoolableActor->SetActive(true);
+	PoolableActor->CreateGraffitiObstacle();
 }
 
 FHitResult AAI2Controller::RaycastToFindWall()
