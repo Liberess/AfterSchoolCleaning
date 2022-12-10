@@ -131,7 +131,7 @@ void AAI1Controller::SpawnGraffiti()
 	FVector newPos = wallPos.ImpactPoint + PoolableActor->GetActorUpVector() * 0.1f;
 	PoolableActor->SetActorLocation(newPos);
 
-	PoolableActor->SetActive(true);
+	PoolableActor->CreateGraffitiObstacle();
 }
 
 FHitResult AAI1Controller::RaycastToFindWall()

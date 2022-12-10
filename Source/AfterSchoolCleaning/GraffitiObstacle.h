@@ -51,11 +51,14 @@ public:
 	void SetActive(bool InActive);
 	void Deactivate();
 
-	FORCEINLINE bool GetActive() { return active; }
-
 	UFUNCTION(BlueprintCallable, Category = "Graffiti Obstacle")
 	void WipeObstacle(ETool _type, int32 count);
 
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UFUNCTION(BlueprintNativeEvent)
+	void CreateGraffitiObstacle();
+
+	UFUNCTION(BlueprintNativeEvent)
 	void CompleteWipe();
+
+	FORCEINLINE bool GetActive() { return active; }
 };
