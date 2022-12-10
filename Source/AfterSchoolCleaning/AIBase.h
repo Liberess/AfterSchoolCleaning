@@ -25,10 +25,11 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool IsGrounded;
 
+	UPROPERTY(BlueprintReadWrite)
+	FVector SpawnPoint;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EPlacedAreaTag PlacedAreaTag;
-
-	APlacedAIArea* CurrentPlacedItemArea;
 
 protected:
 	UPROPERTY(EditAnywhere, Category = "Spawner")
@@ -49,6 +50,8 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void WakeUp();
+
+	void SpawnAI();
 
 protected:
 	// Called when the game starts or when spawned
