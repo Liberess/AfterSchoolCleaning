@@ -13,9 +13,6 @@ enum class EObstacleType : uint8
 	FloorObs	UMETA(DisplayName = "Obstacle Floor"),
 };
 
-DECLARE_MULTICAST_DELEGATE(FWallDebuffDel);
-DECLARE_MULTICAST_DELEGATE(FFloorDebuffDel);
-
 UCLASS()
 class AFTERSCHOOLCLEANING_API AAfterSchoolCleaningGameModeBase : public AGameModeBase
 {
@@ -33,14 +30,24 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetObstacleDebuff(EObstacleType ObsType, bool Active, float Duration);
 
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable)
+	void SetBuffUI(EObstacleType ObsType, float Duration);
+
 	FTimerHandle WallDebuffTimer;
 	FTimerHandle FloorDebuffTimer;
 	FTimerHandle SeeOutlineTimer;
 
 	APostProcessVolume* PostVolume;
 
-	FWallDebuffDel Fuc_WallDebuff;
-	FFloorDebuffDel Fuc_FloorDebuff;
-
 	ASweeper* Sweeper;
+
+	UPROPERTY()
+	UUserWidget* CurrentWidget;
+
+	UFUNCTION(BlueprintCallable)
+	void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidget);
+	
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TSubclassOf<UUserWidget> StartingWidget;
 };

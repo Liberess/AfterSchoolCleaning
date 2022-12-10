@@ -93,8 +93,6 @@ void ASweeper::SetEnabledJump()
 {
 	CanJump = true;
 	GetWorldTimerManager().ClearTimer(JumpTimer);
-
-	GEngine->AddOnScreenDebugMessage(0, 2.0f, FColor::Cyan, TEXT("Now, can jump!"));
 }
 
 void ASweeper::SetEnabledUseTool()
@@ -109,12 +107,10 @@ void ASweeper::ChangeTool(ETool Tool)
 		return;
 	
 	CurrentTool = Tool;
-	GEngine->AddOnScreenDebugMessage(1, 2.0f, FColor::Green, FString::Printf(TEXT("%d"), (int)Tool));
 }
 
 void ASweeper::SetToolRemoveDamage(const ETool ToolType, const int NewDamage)
 {
-	//CurrentRemoveDamages[static_cast<int>(ToolType)] = NewDamage;
 	ToolStats[static_cast<int>(ToolType)].RemoveDamage = NewDamage;
 }
 
@@ -131,7 +127,6 @@ void ASweeper::UseTool_Implementation()
 	//CanJump
 	CanUseTool = false;
 	--CurrentUseToolCounts[static_cast<int>(CurrentTool)];
-	GEngine->AddOnScreenDebugMessage(2, 2.0f, FColor::Yellow, TEXT("Use Tool"));
 
 	GetWorldTimerManager().SetTimer(UseToolTimer, this, &ASweeper::SetEnabledUseTool, UseToolDelay, false);
 }

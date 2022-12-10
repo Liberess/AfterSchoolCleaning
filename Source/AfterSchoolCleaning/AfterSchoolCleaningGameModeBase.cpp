@@ -1,4 +1,5 @@
 #include "AfterSchoolCleaningGameModeBase.h"
+#include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 
 AAfterSchoolCleaningGameModeBase::AAfterSchoolCleaningGameModeBase()
@@ -21,6 +22,8 @@ void AAfterSchoolCleaningGameModeBase::BeginPlay()
 	AActor* TempActor = UGameplayStatics::GetActorOfClass(this, ASweeper::StaticClass());
 	if (IsValid(TempActor))
 		Sweeper = Cast<ASweeper>(TempActor);
+
+	ChangeMenuWidget(StartingWidget);
 }
 
 void AAfterSchoolCleaningGameModeBase::SetOutlinePostProcess(bool Active, float Duration)
@@ -56,6 +59,7 @@ void AAfterSchoolCleaningGameModeBase::SetObstacleDebuff(EObstacleType ObsType, 
 
 		if (Active)
 		{
+			SetBuffUI(ObsType, Duration);
 			Sweeper->SetToolRemoveDamage(ETool::Wall, 3);
 			GetWorld()->GetTimerManager().SetTimer(WallDebuffTimer, FTimerDelegate::CreateLambda([&]()
 			{
@@ -74,6 +78,7 @@ void AAfterSchoolCleaningGameModeBase::SetObstacleDebuff(EObstacleType ObsType, 
 
 		if (Active)
 		{
+			SetBuffUI(ObsType, Duration);
 			Sweeper->SetToolRemoveDamage(ETool::Floor, 3);
 			GetWorld()->GetTimerManager().SetTimer(FloorDebuffTimer, FTimerDelegate::CreateLambda([&]()
 			{
@@ -83,6 +88,24 @@ void AAfterSchoolCleaningGameModeBase::SetObstacleDebuff(EObstacleType ObsType, 
 		else
 		{
 			Sweeper->SetToolRemoveDamage(ETool::Floor, 1);
+		}
+	}
+}
+
+void AAfterSchoolCleaningGameModeBase::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidget)
+{
+	if (CurrentWidget != nullptr)
+	{
+		CurrentWidget->RemoveFromViewport();
+		CurrentWidget = nullptr;
+	}
+
+	if (NewWidget != nullptr)
+	{
+		CurrentWidget = CreateWidget(GetWorld(), NewWidget);
+		if (CurrentWidget != nullptr)
+		{
+			CurrentWidget->AddToViewport();
 		}
 	}
 }
