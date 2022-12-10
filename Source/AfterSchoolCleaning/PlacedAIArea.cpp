@@ -4,6 +4,7 @@
 #include "PlacedAIArea.h"
 #include "DrawDebugHelpers.h"
 #include "AIBase.h"
+#include "Sweeper.h"
 
 APlacedAIArea::APlacedAIArea()
 {
@@ -25,13 +26,23 @@ void APlacedAIArea::OnOverlapBegin(class AActor* OverlappedActor, class AActor* 
 	{
 		AAIBase* AI = Cast<AAIBase>(OtherActor);
 		if (IsValid(AI))
-		{
-			AI->CurrentPlacedItemArea = this;
+		{	
+			bool isGrip = Cast<ASweeper>(GetWorld()->GetFirstPlayerController()->GetPawn())->IsGrip;
 
-			if (AI->PlacedAreaTag == this->PlacedAreaTag)
-				OnDrawDebugBox(FColor::Green);
-			else
-				OnDrawDebugBox(FColor::Red);
+			if (isGrip)
+			{
+				if (AI->PlacedAreaTag == this->PlacedAreaTag)
+				{
+					GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, TEXT("OnBed"));
+					OnDrawDebugBox(FColor::Green);
+					AI->OnSleep();
+				}
+				else
+				{
+					OnDrawDebugBox(FColor::Red);
+					AI->SpawnAI();
+				}
+			}
 		}
 	}
 }
@@ -43,7 +54,6 @@ void APlacedAIArea::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
 		AAIBase* AI = Cast<AAIBase>(OtherActor);
 		if (IsValid(AI))
 		{
-			AI->CurrentPlacedItemArea = nullptr;
 			OnDrawDebugBox(FColor::Yellow);
 		}
 	}

@@ -27,11 +27,10 @@ void AAIBase::BeginPlay()
 
 void AAIBase::OnSleep_Implementation()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, TEXT("Start Sleep"));
+
 	IsInteractable = false;
 	Cast<AAIControllerBase>(GetController())->StopAI();
-
-	if (IsValid(CurrentPlacedItemArea))
-		CurrentPlacedItemArea->OnDrawDebugBox(FColor::Yellow);
 
 	GetWorld()->GetTimerManager().SetTimer(SleepTimerHandle, FTimerDelegate::CreateLambda([&]()
 	{
@@ -41,8 +40,15 @@ void AAIBase::OnSleep_Implementation()
 
 void AAIBase::WakeUp_Implementation()
 {
+	SpawnAI();
+
 	IsInteractable = true;
 	Cast<AAIControllerBase>(GetController())->RunAI();
+}
+
+void AAIBase::SpawnAI()
+{
+	SetActorLocation(SpawnPoint);
 }
 
 void AAIBase::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, 
@@ -59,16 +65,6 @@ void AAIBase::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveCo
 		if (Other->ActorHasTag("Ground"))
 		{
 			IsGrounded = true;
-
-			if (IsValid(CurrentPlacedItemArea))
-			{
-				GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, TEXT("IsValid"));
-				if (CurrentPlacedItemArea->PlacedAreaTag == PlacedAreaTag)
-				{
-					GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, TEXT("Sleep"));
-					OnSleep();
-				}
-			}
 		}
 	}
 }
