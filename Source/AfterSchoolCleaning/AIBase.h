@@ -37,9 +37,18 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Spawner")
 	float SpawnCooldown = 1.2f;
 
+private:
+	FTimerHandle SleepTimerHandle;
+
+	UPROPERTY(EditAnywhere, Category = "Sleep", meta = (AllowPrivateAccess = "true"))
+	float SleepTime = 30;
+
 public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
-	void IsOnSleep();
+	void OnSleep();
+
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	void WakeUp();
 
 protected:
 	// Called when the game starts or when spawned
