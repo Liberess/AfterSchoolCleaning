@@ -49,6 +49,14 @@ void ATrampoline::TrampolineChracter(AActor* OtherActor)
 	{
 		FVector Vector = Character->GetVelocity();
 		Vector.Z = (Vector.Z * -MultipleAmount >= MaxVelocityZ) ? MaxVelocityZ : Vector.Z * -MultipleAmount;
+		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Green, FString::Printf(TEXT("Z 1 = %f"), Vector.Z));
+		if(Vector.Z == 0.0f)
+		{
+			Vector.X *= 0.2f; 
+			Vector.Y *= 0.2f; 
+			Vector.Z = 300.0f;
+		}
+		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Green, FString::Printf(TEXT("Z 2 = %f"), Vector.Z));
 		Character->LaunchCharacter(Vector, true, true);
 	}
 }
