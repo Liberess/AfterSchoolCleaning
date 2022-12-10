@@ -45,11 +45,9 @@ void AAIBase::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveCo
 
 	if (IsValid(Other))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, TEXT("hit"));
-
-		if (Other->ActorHasTag("bed"))
+		if (Other->ActorHasTag("Ground"))
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, TEXT("bed"));
+			GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, TEXT("Ground"));
 			IsGrounded = true;
 
 			if (IsValid(CurrentPlacedItemArea))

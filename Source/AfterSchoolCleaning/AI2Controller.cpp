@@ -77,7 +77,7 @@ void AAI2Controller::SpawnGraffiti()
 		return;
 	}
 
-	FVector newPos = wallPos.ImpactPoint + PoolableActor->GetActorUpVector() * 0.1f;
+	FVector newPos = wallPos.ImpactPoint + PoolableActor->GetActorUpVector() * 0.2f;
 
 	PoolableActor->SetActorLocation(newPos);
 
