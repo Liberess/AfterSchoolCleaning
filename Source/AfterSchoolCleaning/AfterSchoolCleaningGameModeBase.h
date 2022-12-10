@@ -41,7 +41,7 @@ public:
 
 	ASweeper* Sweeper;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	UUserWidget* CurrentWidget;
 
 	UFUNCTION(BlueprintCallable)
