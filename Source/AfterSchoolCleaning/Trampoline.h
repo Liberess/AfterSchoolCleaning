@@ -30,6 +30,10 @@ public:
 	                    int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Trampoline,
+		meta=(ClampMin=0, ClampMax=1000, UIMin=0, UIMax=1000))
+	float ZeroLaunchVelocityZ;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Trampoline,
 		meta=(ClampMin=0, ClampMax=2000, UIMin=0, UIMax=2000))
 	float MaxVelocityZ;
 	

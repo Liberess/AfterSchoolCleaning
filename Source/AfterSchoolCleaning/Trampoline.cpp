@@ -26,6 +26,9 @@ void ATrampoline::BeginPlay()
 	if (MultipleAmount <= 0.0f)
 		MultipleAmount = 1.2f;
 
+	if(ZeroLaunchVelocityZ <= 0.0f)
+		ZeroLaunchVelocityZ = 300.0f;
+
 	BoxCollision->OnComponentBeginOverlap.AddDynamic(this, &ATrampoline::OnOverlapBegin);
 }
 
@@ -54,7 +57,7 @@ void ATrampoline::TrampolineChracter(AActor* OtherActor)
 		{
 			Vector.X *= 0.2f; 
 			Vector.Y *= 0.2f; 
-			Vector.Z = 300.0f;
+			Vector.Z = ZeroLaunchVelocityZ;
 		}
 		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Green, FString::Printf(TEXT("Z 2 = %f"), Vector.Z));
 		Character->LaunchCharacter(Vector, true, true);
