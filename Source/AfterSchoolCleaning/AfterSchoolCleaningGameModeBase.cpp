@@ -54,7 +54,6 @@ void AAfterSchoolCleaningGameModeBase::SetObstacleDebuff(EObstacleType ObsType, 
 	
 	if (ObsType == EObstacleType::WallObs)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Orange, TEXT("WallObs"));
 		GetWorldTimerManager().ClearTimer(WallDebuffTimer);
 
 		if (Active)
@@ -73,7 +72,6 @@ void AAfterSchoolCleaningGameModeBase::SetObstacleDebuff(EObstacleType ObsType, 
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Orange, TEXT("FloorObs"));
 		GetWorldTimerManager().ClearTimer(FloorDebuffTimer);
 
 		if (Active)
