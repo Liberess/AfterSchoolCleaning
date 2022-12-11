@@ -21,10 +21,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Mesh", meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* mesh;
 
-	UPROPERTY(EditAnywhere, Category = "Collision", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Collision", meta = (AllowPrivateAccess = "true"))
 	UBoxComponent* collision;
 
 	UPROPERTY(EditAnywhere, Category = "Graffiti Obstacle", meta = (AllowPrivateAccess = "true"))
@@ -52,7 +52,7 @@ public:
 	void Deactivate();
 
 	UFUNCTION(BlueprintCallable, Category = "Graffiti Obstacle")
-	void WipeObstacle(ETool _type, int32 count);
+	int32 WipeObstacle(ETool _type, int32 count);
 
 	UFUNCTION(BlueprintNativeEvent)
 	void CreateGraffitiObstacle();

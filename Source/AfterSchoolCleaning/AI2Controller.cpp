@@ -48,6 +48,8 @@ void AAI2Controller::RunAI()
 
 void AAI2Controller::StopAI()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, TEXT("StopAI"));
+
 	UBehaviorTreeComponent* BehaviorTreeComponent = Cast<UBehaviorTreeComponent>(BrainComponent);
 	if (nullptr == BehaviorTreeComponent) return;
 
