@@ -37,11 +37,17 @@ class AFTERSCHOOLCLEANING_API ASweeper : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 	USkeletalMeshComponent* CharacterSkeletalMesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 	USceneComponent* RayLocation;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+	UAnimInstance* AnimInstance;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+	UStaticMeshComponent* ToolMesh;
 	
 public:
 	ASweeper();
@@ -110,9 +116,15 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interact)
 	TArray<int> CurrentUseToolCounts;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
-	TArray<UAnimMontage*> ToolAnimation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interact)
+	TArray<UAnimMontage*> ToolAnimations;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interact)
+	TArray<UStaticMesh*> ToolMeshs;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interact)
+	TArray<FName> ToolSocketNames;
+	
 	UFUNCTION(BlueprintCallable)
 	void ChangeTool(ETool Tool);
 
@@ -124,4 +136,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void PutObject();
+
+	UFUNCTION(BlueprintCallable)
+	void ChangeToolMesh(ETool ToolType);
 };

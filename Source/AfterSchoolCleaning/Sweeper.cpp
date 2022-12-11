@@ -28,6 +28,11 @@ ASweeper::ASweeper()
 	RayLocation = CreateDefaultSubobject<USceneComponent>(TEXT("RayLocation"));
 	RayLocation->SetupAttachment(FirstPersonCameraComponent);
 	//RayLocation->SetRelativeLocation(FVector(0.2f, 48.4f, -10.6f));
+
+	ToolMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ToolMesh"));
+	ToolMesh->SetupAttachment(CharacterSkeletalMesh);
+	ToolMesh->bCastDynamicShadow = false;
+	ToolMesh->CastShadow = false;
 }
 
 void ASweeper::BeginPlay()
@@ -49,6 +54,8 @@ void ASweeper::BeginPlay()
 
 	CanJump = true;
 	CanUseTool = true;
+	
+	AnimInstance = CharacterSkeletalMesh->GetAnimInstance();
 }
 
 void ASweeper::Tick(float DeltaTime)
@@ -127,11 +134,26 @@ void ASweeper::ChangeTool(ETool Tool)
 		return;
 	
 	CurrentTool = Tool;
+	ChangeToolMesh(Tool);
 }
 
 void ASweeper::SetToolRemoveDamage(const ETool ToolType, const int NewDamage)
 {
 	ToolStats[static_cast<int>(ToolType)].RemoveDamage = NewDamage;
+}
+
+void ASweeper::ChangeToolMesh(ETool ToolType)
+{
+	if(ToolType == ETool::Hand)
+	{
+		ToolMesh->SetStaticMesh(nullptr);
+		return;
+	}
+	
+	int ToolIndex = static_cast<int>(ToolType) - 1;
+	ToolMesh->SetStaticMesh(ToolMeshs[ToolIndex]);
+	const static FAttachmentTransformRules AttachRules = FAttachmentTransformRules(EAttachmentRule::SnapToTarget, EAttachmentRule::SnapToTarget, EAttachmentRule::KeepRelative, false);
+	ToolMesh->AttachToComponent(CharacterSkeletalMesh, AttachRules, ToolSocketNames[ToolIndex]);
 }
 
 void ASweeper::PutObject_Implementation()
@@ -141,12 +163,18 @@ void ASweeper::PutObject_Implementation()
 
 void ASweeper::UseTool_Implementation()
 {
-	if(!CanUseTool || CurrentUseToolCounts[static_cast<int>(CurrentTool)] <= 0)
+	int ToolIndex = static_cast<int>(CurrentTool);
+	if(!CanUseTool || CurrentUseToolCounts[ToolIndex] <= 0)
 		return;
 
-	//CanJump
 	CanUseTool = false;
-	--CurrentUseToolCounts[static_cast<int>(CurrentTool)];
-
+	--CurrentUseToolCounts[ToolIndex];
 	GetWorldTimerManager().SetTimer(UseToolTimer, this, &ASweeper::SetEnabledUseTool, UseToolDelay, false);
+
+	check(AnimInstance);
+
+	if(CurrentTool != ETool::Hand && IsValid(ToolAnimations[ToolIndex-1]))
+	{
+		AnimInstance->Montage_Play(ToolAnimations[ToolIndex-1], 1.0f);
+	}
 }
