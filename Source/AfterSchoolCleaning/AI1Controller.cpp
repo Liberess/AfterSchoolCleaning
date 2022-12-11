@@ -51,6 +51,9 @@ void AAI1Controller::CreateObstacleObj()
 
 void AAI1Controller::ProcessMovementTimeline(float value)
 {
+	if (!IsValid(SplineReference))
+		return;
+
 	const float SplineLength = SplineReference->GetSplineComponent()->GetSplineLength();
 
 	float distance = FMath::Lerp(0.0f, SplineLength, value);
@@ -78,7 +81,8 @@ void AAI1Controller::FindSplineActor()
 			SplinePaths.Add(Spline);
 	}
 
-	SplineReference = SplinePaths[0];
+	if(SplinePaths.Num() > 0)
+		SplineReference = SplinePaths[0];
 }
 
 //타임라인 재생속도 변수 설정
@@ -110,6 +114,9 @@ void AAI1Controller::MoveToSplinePath()
 
 void AAI1Controller::SpawnGraffiti()
 {
+	if (!Cast<AAIBase>(GetPawn())->active)
+		return;
+
 	ACharacter* myCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 
 	AGraffitiObstacle* PoolableActor = Cast<AAIBase>(GetPawn())->GetObjectPooler()->GetPooledObject();

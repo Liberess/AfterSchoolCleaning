@@ -48,8 +48,6 @@ void AAI2Controller::RunAI()
 
 void AAI2Controller::StopAI()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, TEXT("StopAI"));
-
 	UBehaviorTreeComponent* BehaviorTreeComponent = Cast<UBehaviorTreeComponent>(BrainComponent);
 	if (nullptr == BehaviorTreeComponent) return;
 
@@ -65,6 +63,11 @@ void AAI2Controller::CreateObstacleObj()
 
 void AAI2Controller::SpawnGraffiti()
 {
+	if (!Cast<AAIBase>(GetPawn())->active)
+		return;
+
+	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, TEXT("CreateObj"));
+
 	ACharacter* myCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 
 	AGraffitiObstacle* PoolableActor = Cast<AAIBase>(GetPawn())->GetObjectPooler()->GetPooledObject();
