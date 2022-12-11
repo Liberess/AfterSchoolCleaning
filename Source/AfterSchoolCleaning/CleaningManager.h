@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "DataManager.h"
 #include "Subsystems/WorldSubsystem.h"
 #include "CleaningManager.generated.h"
 
@@ -11,10 +12,21 @@ enum class EProgressType : uint8
 	Remove UMETA(DisplayName = "Remove")
 };
 
+UENUM(BlueprintType)
+enum class EStageName : uint8
+{
+	Stage_1 UMETA(DisplayName = "PreSchool"),
+	Stage_2 UMETA(DisplayName = "Gym"),
+	Stage_3 UMETA(DisplayName = "StudyRoom")
+};
+
 UCLASS()
 class AFTERSCHOOLCLEANING_API UCleaningManager : public UWorldSubsystem
 {
 	GENERATED_BODY()
+
+private:
+	UDataManager* DataManager;
 	
 public:
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
@@ -33,4 +45,7 @@ public:
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	void SetProgress(EProgressType ProgressType, float Progress);
+
+	UFUNCTION(BlueprintCallable)
+	void StageClear(EStageName StageName);
 };

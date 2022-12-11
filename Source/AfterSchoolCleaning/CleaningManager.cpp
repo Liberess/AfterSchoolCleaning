@@ -24,6 +24,8 @@ void UCleaningManager::Initialize(FSubsystemCollectionBase& Collection)
 	TotalProgress = 0.0f;
 	OrganizeProgress = 0.0f;
 	RemoveProgress = 0.0f;
+
+	DataManager = UGameInstance::GetSubsystem<UDataManager>(GetWorld()->GetGameInstance());
 }
 
 void UCleaningManager::SyncProgress()
@@ -32,6 +34,11 @@ void UCleaningManager::SyncProgress()
 	
 	FString Text = FString::SanitizeFloat(TotalProgress);
 	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, FString::Printf(TEXT("Total Progress : %s"), *Text));
+}
+
+void UCleaningManager::StageClear(EStageName StageName)
+{
+	DataManager->StageClears[static_cast<int>(StageName)] = true;
 }
 
 void UCleaningManager::SetProgress_Implementation(EProgressType ProgressType, float Progress)
