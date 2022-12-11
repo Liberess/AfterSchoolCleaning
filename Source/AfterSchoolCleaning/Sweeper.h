@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Camera/CameraComponent.h"
 #include "GameFramework/Character.h"
 #include "Sweeper.generated.h"
 
@@ -33,6 +34,12 @@ class AFTERSCHOOLCLEANING_API ASweeper : public ACharacter
 {
 	GENERATED_BODY()
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	UCameraComponent* FirstPersonCameraComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	USkeletalMeshComponent* CharacterSkeletalMesh;
+	
 public:
 	ASweeper();
 	virtual void Tick(float DeltaTime) override;
@@ -44,7 +51,7 @@ protected:
 private:
 	void MoveForward(float AxisValue);
 	void MoveRight(float AxisValue);
-
+	
 	void Jump();
 	void CheckJumpState();
 	void SetEnabledJump();
@@ -99,6 +106,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interact)
 	TArray<int> CurrentUseToolCounts;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+	TArray<UAnimMontage*> ToolAnimation;
 
 	UFUNCTION(BlueprintCallable)
 	void ChangeTool(ETool Tool);
