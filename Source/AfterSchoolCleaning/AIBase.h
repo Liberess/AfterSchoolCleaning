@@ -25,6 +25,8 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 	bool IsGrounded;
 
+	bool active;
+
 	UPROPERTY(BlueprintReadWrite)
 	FVector SpawnPoint;
 
@@ -52,6 +54,9 @@ public:
 	void WakeUp();
 
 	void SpawnAI();
+
+	UFUNCTION(BlueprintCallable)
+	void SetActive(bool value);
 
 protected:
 	// Called when the game starts or when spawned

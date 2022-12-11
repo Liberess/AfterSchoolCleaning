@@ -43,7 +43,7 @@ void AAIControllerBase::PutOut()
 
 void AAIControllerBase::SpawnGraffiti()
 {
-	
+
 }
 
 FHitResult AAIControllerBase::RaycastToFindWall()

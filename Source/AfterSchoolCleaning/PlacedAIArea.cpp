@@ -29,7 +29,7 @@ void APlacedAIArea::OnOverlapBegin(class AActor* OverlappedActor, class AActor* 
 		{	
 			bool isGrip = Cast<ASweeper>(GetWorld()->GetFirstPlayerController()->GetPawn())->IsGrip;
 
-			if (isGrip)
+			if (!isGrip)
 			{
 				if (AI->PlacedAreaTag == this->PlacedAreaTag)
 				{

@@ -3,6 +3,7 @@
 
 #include "AIBase.h"
 #include "AIControllerBase.h"
+#include "GameFramework/Actor.h"
 
 // Sets default values
 AAIBase::AAIBase()
@@ -23,19 +24,18 @@ void AAIBase::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	SpawnPoint = GetActorLocation();
 }
 
 void AAIBase::OnSleep_Implementation()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, TEXT("Start Sleep"));
-
 	IsInteractable = false;
 	Cast<AAIControllerBase>(GetController())->StopAI();
 
 	GetWorld()->GetTimerManager().SetTimer(SleepTimerHandle, FTimerDelegate::CreateLambda([&]()
 	{
 		WakeUp();
-	}), SleepTime, false); //반복도 여기서 추가 변수를 선언해 설정가능
+	}), SleepTime, false);
 }
 
 void AAIBase::WakeUp_Implementation()
@@ -49,6 +49,14 @@ void AAIBase::WakeUp_Implementation()
 void AAIBase::SpawnAI()
 {
 	SetActorLocation(SpawnPoint);
+}
+
+void AAIBase::SetActive(bool value)
+{
+	active = value;
+	SetActorHiddenInGame(!value);
+	SetActorEnableCollision(value);
+	SetActorTickEnabled(value);
 }
 
 void AAIBase::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, 
