@@ -43,8 +43,8 @@ class AFTERSCHOOLCLEANING_API ASweeper : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 	USceneComponent* RayLocation;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
-	UAnimInstance* AnimInstance;
+	/*UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+	UAnimInstance* AnimInstance;*/
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* ToolMesh;
@@ -115,9 +115,6 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Interact)
 	TArray<int> CurrentUseToolCounts;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interact)
-	TArray<UAnimMontage*> ToolAnimations;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Interact)
 	TArray<UStaticMesh*> ToolMeshs;

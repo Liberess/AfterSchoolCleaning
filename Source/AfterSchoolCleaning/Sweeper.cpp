@@ -55,7 +55,7 @@ void ASweeper::BeginPlay()
 	CanJump = true;
 	CanUseTool = true;
 	
-	AnimInstance = CharacterSkeletalMesh->GetAnimInstance();
+	//AnimInstance = CharacterSkeletalMesh->GetAnimInstance();
 }
 
 void ASweeper::Tick(float DeltaTime)
@@ -170,11 +170,4 @@ void ASweeper::UseTool_Implementation()
 	CanUseTool = false;
 	--CurrentUseToolCounts[ToolIndex];
 	GetWorldTimerManager().SetTimer(UseToolTimer, this, &ASweeper::SetEnabledUseTool, UseToolDelay, false);
-
-	check(AnimInstance);
-
-	if(CurrentTool != ETool::Hand && IsValid(ToolAnimations[ToolIndex-1]))
-	{
-		AnimInstance->Montage_Play(ToolAnimations[ToolIndex-1], 1.0f);
-	}
 }
