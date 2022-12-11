@@ -26,8 +26,8 @@ ASweeper::ASweeper()
 	CharacterSkeletalMesh->CastShadow = false;
 
 	RayLocation = CreateDefaultSubobject<USceneComponent>(TEXT("RayLocation"));
-	RayLocation->SetupAttachment(CharacterSkeletalMesh);
-	RayLocation->SetRelativeLocation(FVector(0.2f, 48.4f, -10.6f));
+	RayLocation->SetupAttachment(FirstPersonCameraComponent);
+	//RayLocation->SetRelativeLocation(FVector(0.2f, 48.4f, -10.6f));
 }
 
 void ASweeper::BeginPlay()
