@@ -25,7 +25,7 @@ AGraffitiObstacle::AGraffitiObstacle()
 
 	SetActive(true);
 
-	curDeleteCount = deleteCount;
+	curDeleteCount = 0;
 
 	Tags.Add(TEXT("Interactable"));
 }
@@ -35,6 +35,8 @@ void AGraffitiObstacle::BeginPlay()
 {
 	Super::BeginPlay();
 
+	SetActive(true);
+	curDeleteCount = 0;
 }
 
 
