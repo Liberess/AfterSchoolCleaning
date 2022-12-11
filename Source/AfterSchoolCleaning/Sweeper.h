@@ -39,6 +39,9 @@ class AFTERSCHOOLCLEANING_API ASweeper : public ACharacter
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	USkeletalMeshComponent* CharacterSkeletalMesh;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Mesh, meta = (AllowPrivateAccess = "true"))
+	USceneComponent* RayLocation;
 	
 public:
 	ASweeper();

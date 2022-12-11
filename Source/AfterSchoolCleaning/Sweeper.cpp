@@ -11,7 +11,7 @@ ASweeper::ASweeper()
 	BaseLookUpRate = 45.f;
 
 	// Create a CameraComponent	
-	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
+	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FPPCamera"));
 	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
 	FirstPersonCameraComponent->SetRelativeLocation(FVector(-39.56f, 1.75f, 64.f)); // Position the camera
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
@@ -24,6 +24,10 @@ ASweeper::ASweeper()
 	CharacterSkeletalMesh->SetupAttachment(FirstPersonCameraComponent);
 	CharacterSkeletalMesh->bCastDynamicShadow = false;
 	CharacterSkeletalMesh->CastShadow = false;
+
+	RayLocation = CreateDefaultSubobject<USceneComponent>(TEXT("RayLocation"));
+	RayLocation->SetupAttachment(CharacterSkeletalMesh);
+	RayLocation->SetRelativeLocation(FVector(0.2f, 48.4f, -10.6f));
 }
 
 void ASweeper::BeginPlay()
