@@ -12,7 +12,7 @@ void APlacedItemArea::BeginPlay()
 {
 	Super::BeginPlay();
 
-	OnDrawDebugBox(FColor::Yellow);
+	//OnDrawDebugBox(FColor::Yellow);
 }
 
 void APlacedItemArea::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor)
@@ -23,11 +23,6 @@ void APlacedItemArea::OnOverlapBegin(AActor* OverlappedActor, AActor* OtherActor
 		if (IsValid(Item))
 		{
 			Item->CurrentPlacedItemArea = this;
-
-			if (Item->PlacedAreaTag == this->PlacedAreaTag)
-				OnDrawDebugBox(FColor::Green);
-			else
-				OnDrawDebugBox(FColor::Red);
 		}
 	}
 }
@@ -40,12 +35,12 @@ void APlacedItemArea::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
 		if (IsValid(Item))
 		{
 			Item->CurrentPlacedItemArea = nullptr;
-			OnDrawDebugBox(FColor::Yellow);
+			//OnDrawDebugBox(FColor::Yellow);
 		}
 	}
 }
 
-void APlacedItemArea::OnDrawDebugBox(FColor DebugColor)
+/*void APlacedItemArea::OnDrawDebugBox(FColor DebugColor)
 {
 	DrawDebugBox(GetWorld(), GetActorLocation(), GetComponentsBoundingBox().GetExtent(), DebugColor, true, -1, 0, 1);
-}
+}*/
