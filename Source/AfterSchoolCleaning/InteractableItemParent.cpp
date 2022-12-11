@@ -64,7 +64,7 @@ void AInteractableItemParent::CompleteOrganize_Implementation()
 {
 	IsInteractable = false;
 	ItemMesh->SetCollisionProfileName("BlockAll");
-	ItemMesh->SetSimulatePhysics(false);
+	//ItemMesh->SetSimulatePhysics(false);
 
 	if(IsValid(CurrentPlacedItemArea))
 		CurrentPlacedItemArea->OnDrawDebugBox(FColor::Yellow);

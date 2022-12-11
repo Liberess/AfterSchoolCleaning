@@ -33,7 +33,6 @@ void UCleaningManager::SyncProgress()
 	TotalProgress = OrganizeProgress + RemoveProgress;
 	
 	FString Text = FString::SanitizeFloat(TotalProgress);
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Yellow, FString::Printf(TEXT("Total Progress : %s"), *Text));
 }
 
 void UCleaningManager::StageClear(EStageName StageName)
