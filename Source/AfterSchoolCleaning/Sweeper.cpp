@@ -29,6 +29,8 @@ void ASweeper::BeginPlay()
 
 	CanJump = true;
 	CanUseTool = true;
+
+	bUseControllerRotationPitch = true;
 }
 
 void ASweeper::Tick(float DeltaTime)
