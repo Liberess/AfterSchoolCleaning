@@ -66,10 +66,10 @@ void AGraffitiObstacle::Init()
 	SetActorRotation(FRotator().ZeroRotator);
 }
 
-void AGraffitiObstacle::WipeObstacle(ETool type, int32 count)
+int32 AGraffitiObstacle::WipeObstacle(ETool type, int32 count)
 {
 	if (type != Type)
-		return;
+		return curDeleteCount;
 
 	curDeleteCount = curDeleteCount + count;
 	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, FString::FromInt(curDeleteCount));
@@ -78,6 +78,8 @@ void AGraffitiObstacle::WipeObstacle(ETool type, int32 count)
 	{
 		CompleteWipe();
 	}
+
+	return curDeleteCount;
 }
 
 void AGraffitiObstacle::CreateGraffitiObstacle_Implementation()
