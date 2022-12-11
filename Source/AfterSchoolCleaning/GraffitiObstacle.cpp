@@ -23,7 +23,7 @@ AGraffitiObstacle::AGraffitiObstacle()
 		collision->SetCollisionProfileName("InteractableActor");
 	}
 
-	Deactivate();
+	SetActive(true);
 
 	curDeleteCount = deleteCount;
 
