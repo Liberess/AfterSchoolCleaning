@@ -74,7 +74,6 @@ int32 AGraffitiObstacle::WipeObstacle(ETool type, int32 count)
 		return curDeleteCount;
 
 	curDeleteCount = curDeleteCount + count;
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, FString::FromInt(curDeleteCount));
 
 	if (curDeleteCount >= deleteCount)
 	{

@@ -66,7 +66,6 @@ void AAI2Controller::SpawnGraffiti()
 	if (!Cast<AAIBase>(GetPawn())->active)
 		return;
 
-	GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, TEXT("CreateObj"));
 
 	ACharacter* myCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 

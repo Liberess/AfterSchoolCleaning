@@ -16,8 +16,6 @@ APlacedAIArea::APlacedAIArea()
 void APlacedAIArea::BeginPlay()
 {
 	Super::BeginPlay();
-
-	OnDrawDebugBox(FColor::Yellow);
 }
 
 void APlacedAIArea::OnOverlapBegin(class AActor* OverlappedActor, class AActor* OtherActor)
@@ -33,13 +31,10 @@ void APlacedAIArea::OnOverlapBegin(class AActor* OverlappedActor, class AActor* 
 			{
 				if (AI->PlacedAreaTag == this->PlacedAreaTag)
 				{
-					GEngine->AddOnScreenDebugMessage(-1, 3.0f, FColor::Cyan, TEXT("OnBed"));
-					OnDrawDebugBox(FColor::Green);
 					AI->OnSleep();
 				}
 				else
 				{
-					OnDrawDebugBox(FColor::Red);
 					AI->SpawnAI();
 				}
 			}
@@ -54,7 +49,6 @@ void APlacedAIArea::OnOverlapEnd(AActor* OverlappedActor, AActor* OtherActor)
 		AAIBase* AI = Cast<AAIBase>(OtherActor);
 		if (IsValid(AI))
 		{
-			OnDrawDebugBox(FColor::Yellow);
 		}
 	}
 }
