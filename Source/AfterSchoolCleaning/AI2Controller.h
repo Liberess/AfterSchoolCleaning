@@ -29,10 +29,8 @@ private:
 public:
 	virtual void OnPossess(APawn* InPawn) override;
 
-	virtual void RunAI() override;
-	virtual void StopAI() override;
-
-	virtual void CreateObstacleObj() override;
+	virtual void MoveAI() override;
+	virtual void StopMoveAI() override;
 
 private:
 	virtual void SpawnGraffiti() override;

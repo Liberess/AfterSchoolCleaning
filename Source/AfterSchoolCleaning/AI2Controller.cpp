@@ -35,30 +35,20 @@ void AAI2Controller::OnPossess(APawn* InPawn)
 	RunAI();
 }
 
-void AAI2Controller::RunAI()
+void AAI2Controller::MoveAI()
 {
 	if (UseBlackboard(BBAsset, Blackboard))
 	{
 		RunBehaviorTree(BTAsset);
 	}
-
-	CreateObstacleObj();
-	GetPawn()->SetActorRotation(FRotator().ZeroRotator);
 }
 
-void AAI2Controller::StopAI()
+void AAI2Controller::StopMoveAI()
 {
 	UBehaviorTreeComponent* BehaviorTreeComponent = Cast<UBehaviorTreeComponent>(BrainComponent);
 	if (nullptr == BehaviorTreeComponent) return;
 
 	BehaviorTreeComponent->StopTree(EBTStopMode::Safe);
-
-	GetWorldTimerManager().ClearTimer(SpawnCooldownTimer);
-}
-
-void AAI2Controller::CreateObstacleObj()
-{
-	GetWorldTimerManager().SetTimer(SpawnCooldownTimer, this, &AAI2Controller::SpawnGraffiti, SpawnCooldown, true);
 }
 
 void AAI2Controller::SpawnGraffiti()

@@ -20,9 +20,22 @@ void AAIControllerBase::OnPossess(APawn* InPawn)
 
 void AAIControllerBase::RunAI()
 {
+	MoveAI();
+	CreateObstacleObj();
+	GetPawn()->SetActorRotation(FRotator().ZeroRotator);
 }
 
 void AAIControllerBase::StopAI()
+{
+	StopMoveAI();
+	GetWorldTimerManager().ClearTimer(SpawnCooldownTimer);
+}
+
+void AAIControllerBase::MoveAI()
+{
+}
+
+void AAIControllerBase::StopMoveAI()
 {
 }
 

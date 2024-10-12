@@ -42,10 +42,8 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void RunAI() override;
-	virtual void StopAI() override;
-
-	virtual void CreateObstacleObj() override;
+	virtual void MoveAI() override;
+	virtual void StopMoveAI() override;
 
 	UFUNCTION()
 	void ProcessMovementTimeline(float value);

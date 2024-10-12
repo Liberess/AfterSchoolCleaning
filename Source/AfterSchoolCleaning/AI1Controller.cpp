@@ -31,22 +31,14 @@ void AAI1Controller::Tick(float DeltaTime)
 	}
 }
 
-void AAI1Controller::RunAI()
+void AAI1Controller::MoveAI()
 {
 	MovementTimeline.Play();
-	CreateObstacleObj();
-	GetPawn()->SetActorRotation(FRotator().ZeroRotator);
 }
 
-void AAI1Controller::StopAI()
+void AAI1Controller::StopMoveAI()
 {
 	MovementTimeline.Stop();
-	GetWorldTimerManager().ClearTimer(SpawnCooldownTimer);
-}
-
-void AAI1Controller::CreateObstacleObj()
-{
-	GetWorldTimerManager().SetTimer(SpawnCooldownTimer, this, &AAI1Controller::SpawnGraffiti, SpawnCooldown, true);
 }
 
 void AAI1Controller::ProcessMovementTimeline(float value)

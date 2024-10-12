@@ -28,6 +28,8 @@ public:
 	virtual void RunAI();
 	virtual void StopAI();
 
+	virtual void MoveAI();
+	virtual void StopMoveAI();
 	virtual void CreateObstacleObj();
 
 	UFUNCTION(BlueprintCallable)
