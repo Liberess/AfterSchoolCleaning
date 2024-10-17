@@ -56,39 +56,21 @@ void AAI2Controller::SpawnGraffiti()
 	if (!Cast<AAIBase>(GetPawn())->active)
 		return;
 
-
-	ACharacter* myCharacter = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
-
 	AGraffitiObstacle* PoolableActor = Cast<AAIBase>(GetPawn())->GetObjectPooler()->GetPooledObject();
 	if (PoolableActor == nullptr)
 	{
 		return;
 	}
 
-	FHitResult wallPos = RaycastToFindWall();
+	FVector startLocation = GetPawn()->GetActorLocation();
+	FVector endLocation = GetPawn()->GetActorLocation() + GetPawn()->GetActorUpVector() * -150;
+
+	FHitResult wallPos = RaycastToFindWall(startLocation, endLocation);
 	if (wallPos.Actor == NULL)
 	{
 		return;
 	}
 
 	FVector newPos = wallPos.ImpactPoint + PoolableActor->GetActorUpVector() * 0.2f;
-
-	PoolableActor->SetActorLocation(newPos);
-
-	PoolableActor->CreateGraffitiObstacle();
-}
-
-FHitResult AAI2Controller::RaycastToFindWall()
-{
-	FHitResult hitResult;
-	FVector startLocation = GetPawn()->GetActorLocation();
-	FVector endLocation = GetPawn()->GetActorLocation() + GetPawn()->GetActorUpVector() * -150;
-
-	bool isHitResult = GetWorld()->LineTraceSingleByObjectType(
-		hitResult,
-		startLocation,
-		endLocation,
-		ECollisionChannel::ECC_WorldStatic);
-
-	return hitResult;
+	PoolableActor->SetGraffitiObstacle(newPos);
 }

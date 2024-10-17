@@ -41,5 +41,5 @@ public:
 protected:
 	virtual void SpawnGraffiti();
 
-	virtual FHitResult RaycastToFindWall();
+	virtual FHitResult RaycastToFindWall(FVector start, FVector end);
 };

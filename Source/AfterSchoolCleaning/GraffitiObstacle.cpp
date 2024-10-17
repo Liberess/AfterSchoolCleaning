@@ -83,8 +83,11 @@ int32 AGraffitiObstacle::WipeObstacle(ETool type, int32 count)
 	return curDeleteCount;
 }
 
-void AGraffitiObstacle::CreateGraffitiObstacle_Implementation()
+void AGraffitiObstacle::SetGraffitiObstacle_Implementation(FVector pos, FRotator rot = FRotator().ZeroRotator)
 {
+	SetActorLocation(pos);
+	SetActorRotation(rot);
+
 	IsInteractable = true;
 
 	SetActive(true);

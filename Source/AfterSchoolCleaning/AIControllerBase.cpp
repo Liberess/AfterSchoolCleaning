@@ -59,7 +59,15 @@ void AAIControllerBase::SpawnGraffiti()
 
 }
 
-FHitResult AAIControllerBase::RaycastToFindWall()
+FHitResult AAIControllerBase::RaycastToFindWall(FVector start, FVector end)
 {
-	return FHitResult();
+	FHitResult hitResult;
+
+	bool isHitResult = GetWorld()->LineTraceSingleByObjectType(
+		hitResult,
+		start,
+		end,
+		ECollisionChannel::ECC_WorldStatic);
+
+	return hitResult;
 }

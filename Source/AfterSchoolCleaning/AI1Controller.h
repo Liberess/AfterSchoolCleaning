@@ -62,6 +62,4 @@ public:
 
 private:
 	virtual void SpawnGraffiti() override;
-
-	virtual FHitResult RaycastToFindWall() override;
 };

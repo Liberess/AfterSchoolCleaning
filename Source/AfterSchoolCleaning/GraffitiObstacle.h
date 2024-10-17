@@ -55,7 +55,7 @@ public:
 	int32 WipeObstacle(ETool _type, int32 count);
 
 	UFUNCTION(BlueprintNativeEvent)
-	void CreateGraffitiObstacle();
+	void SetGraffitiObstacle(FVector pos, FRotator rot = FRotator().ZeroRotator);
 
 	UFUNCTION(BlueprintNativeEvent)
 	void CompleteWipe();
